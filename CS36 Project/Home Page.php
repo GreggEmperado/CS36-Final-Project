@@ -51,7 +51,9 @@
         <script src="js\slideshow.js"></script>
 
         <footer>
-            <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo">
+            <h1>RKG Hotel</h1>
+            <p>Dumaguete City, Negros Oriental 6200, Philippines</p>
+            <p>rkghotel@gmail.com</p>
         </footer>
     </body>
 </html>

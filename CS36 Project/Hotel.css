@@ -233,3 +233,20 @@ button{
     border: none;
     border-radius: 8px;
 }
+
+.form-log-in{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #E5D4ED;
+    margin:auto;
+    padding: 10px;
+    border-radius: 8px;
+    width: 300px; /* Set a fixed width for the form */
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+}
