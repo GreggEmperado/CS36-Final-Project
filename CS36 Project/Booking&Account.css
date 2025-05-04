@@ -1,0 +1,119 @@
+body{
+    background-color: #514f59;
+}
+
+.container{
+    background-color: #d9d9d9;
+}
+
+.profileimg{
+    max-width: 60%;
+    max-height: 60%;
+    background-color: #b3b3b3;
+
+}
+
+header{
+    display: flex;
+    background-color: #FFFFFF;
+    justify-content: space-between; /* Align navBar to the left and account to the right */
+    align-items: center;
+    padding: 10px 20px;
+    
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: 0 auto;
+    background-color: #FFFFFF;
+    justify-content: center;
+}
+.logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+}
+
+.account {
+    margin-left: auto; /* Pushes the account dropdown to the far right */
+}
+
+.navBar {
+    flex-grow: 1; /* Allows the navbar to take up available space */
+    text-align: center; /* Centers the navbar horizontally */
+}
+
+.navBar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.navBar li {
+    margin: 0 15px;
+}
+
+.navBar li a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.navBar li a:hover {
+    text-decoration: underline #5941A9;
+    color: #5941A9;
+}
+
+.accountPhoto {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.account button {
+    display: flex;
+    align-items: center;
+    background: white;
+    outline: none;
+    border: none;
+    color: black;
+    gap: 10px;
+    padding: 5px 10px;
+}
+
+.account button:hover {
+    text-decoration: underline #5941A9;
+    background-color: white;
+    color: #5941A9;
+}
+
+h1{
+    font-family: baskerville;
+}
+
+.custom-table th, tr, td{
+    text-align: center;
+    background-color: #d9d9d9 !important;
+
+}
+
+.custom-table th{
+    font-size:1.2vw;
+}
+#calendar td {
+    border: 1px solid grey;
+  }
+#calendar a{
+    color: black !important;
+    text-decoration: none !important;
+}
+
+div{
+    font-size: 1vw;
+}
