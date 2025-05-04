@@ -280,7 +280,10 @@ form{
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="firstName"],
+input[type="lastName"],
+input[type="confirmPassword"] {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
