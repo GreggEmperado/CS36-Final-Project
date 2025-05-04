@@ -35,6 +35,8 @@
                 <div class = "wrapper-holder">
                     <div class="slide" id = "slider-img-1"></div>
                     <div class="slide" id = "slider-img-2"></div>
+                    <div class="slide" id = "slider-img-3"></div>
+                    <div class="slide" id = "slider-img-4"></div>
                 </div>
             </div>
 

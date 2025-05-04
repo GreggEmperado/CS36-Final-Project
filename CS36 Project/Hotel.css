@@ -3,6 +3,8 @@ Hover color: #5941A9
 selected color: #6D72C3
 button color: #1D1128
 description: #E5D4ED
+section: #323139
+border-radius: 8px;
 */
 
 body{
@@ -189,12 +191,21 @@ footer{
 }
 
 #slider-img-1 {
-    background-image: url('resources/image1.jpg');
+    background-image: url('resources/king-room.jpg');
 }
 
 #slider-img-2 {
     background-image: url('resources/image2.png');
 }
+
+#slider-img-3 {
+    background-image: url('resources/penthouse.jpg');
+}
+
+#slider-img-4 {
+    background-image: url('resources/penthouseOutside.jpg');
+}
+
 
 .prev, .next {
     display: flex;
@@ -243,6 +254,11 @@ button{
     color: white;
     border: none;
     border-radius: 8px;
+}
+
+.Book{
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .form-log-in{
@@ -299,4 +315,36 @@ a{
 a:hover{
     text-decoration: underline #5941A9;
     color: #5941A9;
+}
+
+.rooms-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    justify-content: space-around; 
+    align-items: center;
+    margin: 0;
+    padding: 20px; 
+    width: 100%;
+    background-color: #323139;
+}
+
+.room{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding:10px;
+    width: 25%;
+    background-color: #E5D4ED;
+    border-radius: 8px;
+}
+
+.room-image{
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
 }
