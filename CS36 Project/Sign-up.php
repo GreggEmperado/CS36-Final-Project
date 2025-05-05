@@ -24,6 +24,9 @@
 
                     <label class="label">Email</label><br>
                     <input type="email" name="email" placeholder="Enter your email" required> <br>
+
+                    <label class="label">Phone Number</label><br>
+                    <input type="phone" name="phone" placeholder="Enter your phone number" required> <br>
                   
                     <label class="label">Password</label><br>
                     <input type="password" name="password" placeholder="Enter your password" required>
