@@ -53,50 +53,152 @@
 
         <div class = "rooms-container">
             <div class = "room" id = "single-bedroom"> 
-                <img src="resources/singleBedRoom.jpg" alt="Single Bedroom" class="room-image">
-                <h1>Single Bedroom</h1>
-                <p>Perfect for solo travelers or couples looking for a cozy retreat.</p>
-                <button class ="Book">Book Now</button>
+                <div class = "room-header">
+                    <img src="resources/singleBedRoom.jpg" alt="Single Bedroom" class="room-image">
+                    <h1>Single Bedroom</h1>
+                    <p>Perfect for solo travelers or couples looking for a cozy retreat.</p>
+                </div>
+                <div class = "read-more-content">
+                    <p>Our single bedroom offers a comfortable bed, modern amenities, and a serene atmosphere. Enjoy your stay with us!</p>
+                    <p>Room Features:</p>
+                    <ul>
+                        <li>Free Wi-Fi</li>
+                        <li>Air Conditioning</li>
+                        <li>Flat-screen TV</li>
+                        <li>Mini Fridge</li>
+                        <li>Complimentary Breakfast</li>
+                    </ul>
+                </div>
+                <button class ="readMore">Read More</button>
             </div>
 
             <div class = "room" id = "double-bedroom">
-                <img src="resources/doubleBedRoom.jpg" alt="Double Bedroom" class="room-image">
-                <h1>Double Bedroom</h1>
-                <p>Spacious and comfortable, ideal for families or groups.</p>
-                <button class ="Book">Book Now</button>
+                <div class = "room-header">
+                    <img src="resources/doubleBedRoom.jpg" alt="Double Bedroom" class="room-image">
+                    <h1>Double Bedroom</h1>
+                    <p>Spacious and comfortable, ideal for families or groups.</p>
+                </div>
+
+                <div class = "read-more-content">
+                    <p>Our double bedroom features two comfortable beds, modern amenities, and a cozy atmosphere. Perfect for families or friends traveling together!</p>
+                    <p>Room Features:</p>
+                    <ul>
+                        <li>Free Wi-Fi</li>
+                        <li>Air Conditioning</li>
+                        <li>Flat-screen TV</li>
+                        <li>Mini Fridge</li>
+                        <li>Complimentary Breakfast</li>
+                    </ul>
+                </div>
+                <button class ="readMore">Read More</button>
             </div>
 
             <div class = "room" id = "suite">
-                <img src="resources/image2.png" alt="Suite" class="room-image">
-                <h1>Suite</h1>
-                <p>Luxury and elegance combined for an unforgettable experience.</p>
-                <button class ="Book">Book Now</button>
+                <div class = "room-header">
+                    <img src="resources/image2.png" alt="Suite" class="room-image">
+                    <h1>Suite</h1>
+                    <p>Luxury and elegance combined for an unforgettable experience.</p>
+                </div>
+
+                <div class = "read-more-content">
+                    <p>Our suite offers a spacious living area, luxurious furnishings, and stunning views. Experience the height of comfort and style!</p>
+                    <p>Room Features:</p>
+                    <ul>
+                        <li>Free Wi-Fi</li>
+                        <li>Air Conditioning</li>
+                        <li>Flat-screen TV</li>
+                        <li>Mini Fridge</li>
+                        <li>Complimentary Breakfast</li>
+                        <li>Room Service</li>
+                        <li>Private Balcony</li>
+                    </ul>
+                </div>
+                <button class ="readMore">Read More</button>
             </div>
 
             <div class = "room" id = "king-bedroom">
-                <img src="resources/king-room.jpg" alt="King Bedroom" class="room-image">
-                <h1>King Bedroom</h1>
-                <p>Indulge in the ultimate comfort and style.</p>
-                <button class ="Book">Book Now</button>
+                <div class = "room-header">
+                    <img src="resources/king-room.jpg" alt="King Bedroom" class="room-image">
+                    <h1>King Bedroom</h1>
+                    <p>Indulge in the ultimate comfort and style.</p>
+                </div>
+
+                <div class = "read-more-content">
+                    <p>Our king bedroom features a spacious layout, luxurious furnishings, and stunning views. Experience the height of comfort and style!</p>
+                    <p>Room Features:</p>
+                    <ul>
+                        <li>Free Wi-Fi</li>
+                        <li>Air Conditioning</li>
+                        <li>Flat-screen TV</li>
+                        <li>Mini Fridge</li>
+                        <li>Complimentary Breakfast</li>
+                        <li>Room Service</li>
+                        <li>Private Balcony</li>
+                    </ul>
+                </div>
+                <button class ="readMore">Read More</button>
             </div>
 
             <div class = "room" id = "studio-bedroom">
-                <img src="resources/studio-room.jpg" alt="Studio Bedroom" class="room-image">
-                <h1>Studio Bedroom</h1>
-                <p>Perfect for extended stays with all the amenities you need.</p>
-                <button class ="Book">Book Now</button>
+                <div class = "room-header">
+                    <img src="resources/studio-room.jpg" alt="Studio Bedroom" class="room-image">
+                    <h1>Studio Bedroom</h1>
+                    <p>Perfect for extended stays with all the amenities you need.</p>
+                </div>
+
+                <div class = "read-more-content">
+                    <p>Our studio bedroom offers a comfortable bed, modern amenities, and a cozy atmosphere. Enjoy your stay with us!</p>
+                    <p>Room Features:</p>
+                    <ul>
+                        <li>Free Wi-Fi</li>
+                        <li>Air Conditioning</li>
+                        <li>Flat-screen TV</li>
+                        <li>Mini Fridge</li>
+                        <li>Complimentary Breakfast</li>
+                    </ul>
+                </div>
+                <button class ="readMore">Read More</button>
             </div>
 
             <div class = "room" id = "penthouse">
-                <img src="resources/penthouse.jpg" alt="Penthouse" class="room-image">
-                <h1>Penthouse</h1>
-                <p>Experience the height of luxury with breathtaking views.</p>
-                <button class ="Book">Book Now</button>
+                <div class = "room-header">
+                    <img src="resources/penthouse.jpg" alt="Penthouse" class="room-image">
+                    <h1>Penthouse</h1>
+                    <p>Experience the height of luxury with breathtaking views.</p>
+                </div>
+                <div class = "read-more-content">
+                    <p>Our penthouse offers a spacious living area, luxurious furnishings, and stunning views. Experience the height of comfort and style!</p>
+                    <p>Room Features:</p>
+                    <ul>
+                        <li>Free Wi-Fi</li>
+                        <li>Air Conditioning</li>
+                        <li>Flat-screen TV</li>
+                        <li>Mini Fridge</li>
+                        <li>Complimentary Breakfast</li>
+                        <li>Room Service</li>
+                        <li>Private Balcony</li>
+                    </ul>
+                </div>
+                <button class ="readMore">Read More</button>
             </div>
 
         </div>
+
+        <div class = "popup-box">
+            <div class = "popup-content">
+                <div class = "popup-header">
+                </div>
+                <div class = "popup-body">
+                </div>
+                <div class = "popup-footer">
+                    <button class = "close-btn">Close</button>
+                    <button class = "booknow">Book Now</button>
+                </div>
+            </div>
+        </div>
         
         <script src="js\slideshow.js"></script>
+        <script src="js\popup.js"></script>
 
         <footer>
             <h1>RKG Hotel</h1>
