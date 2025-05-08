@@ -11,6 +11,8 @@
     if (isset($_POST['acceptedit'])){
         $edit = null;
     }
+
+    $single = null;
 ?>
     
 <!DOCTYPE html>
@@ -48,14 +50,13 @@
         <!-- Account Editing -->
         <div class="row">
             <div class="col-md-6">
-            <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid">
+            <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
             </div>
             <?php if ($edit): ?>
                 <div class="col-md-3 mt-5">
                     <form method="post">
                        <h4> First Name</h4><p><input type="text" name="Fname" value="<?= $edit['Fname'] ?>"></p><br>
                         <h4>Email</h4> <p><input type="text" name="Email" value="<?= $edit['Lname'] ?>"></p><br>
-                        <button type="submit" name="acceptedit">Accept Changes</button>
                     </form>
                 </div>
 
@@ -63,6 +64,7 @@
                     <form method="post">
                         <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?= $edit['Birthday'] ?>"></p><br>
                         <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?= $edit['Position'] ?>"></p><br>
+                        <button type="submit" name="acceptedit">Accept Changes</button>
                     </form>
                 </div>
             
@@ -74,9 +76,6 @@
                 <h4>Email</h4>
                 <p>greggmemperado@su.edu.ph</p>
                 <br>
-                <form method="post">
-                <button type="submit" name="edit">Edit Profile</button>
-                </form>
                 </div>
                 <div class="col-md-3 mt-5">
                 <h4>Last Name</h4>
@@ -84,6 +83,9 @@
                 
                 <h4>Contact No.</h4>
                 <p>55554327896</p>
+                <form method="post">
+                <button type="submit" name="edit">Edit Profile</button>
+                </form>
                 </div>
             <?php endif; ?>
         </div>
