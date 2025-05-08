@@ -24,18 +24,14 @@
                   <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
 
-                <div class="forgotPass">
-                  <a href="#">Forgot password?</a>
-                </div>
-
                 <div class="button-group">
-                  <button class= "signin" type="submit" class="button">Sign In</button>
+                  <button class= "signin" type="submit" class="button" href="HomePage.php">Log In</button>
                 </div>
 
 
 
                 <div class="newAcc">
-                  <a href="#">Make new account?</a>
+                  <a href="Sign-up.php">Make new account?</a>
                 </div>
             </form>
 

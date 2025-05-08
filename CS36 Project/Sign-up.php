@@ -9,7 +9,7 @@
 
     <body>
         <header class="header-login">
-            <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo-login">
+            <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo-login" href="HomePage.Php">
         </header>
 
         <div class="form-log-in">
@@ -36,13 +36,11 @@
                 </div>
 
                 <div class="button-group">
-                  <button class= "signin" type="submit" class="button">Sign In</button>
+                  <button class= "signin" type="submit" class="button" href="LogIn.Php">Sign up</button>
                 </div>
 
-
-
                 <div class="newAcc">
-                  <a href="#">Already Have an Account?</a>
+                  <a href="LogIn.php">Already Have an Account?</a>
                 </div>
             </form>
 
