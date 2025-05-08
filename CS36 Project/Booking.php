@@ -8,7 +8,7 @@
     </head>
     <body>
         <header>
-                <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo">
+                <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" href="HomePage.Php">
                 <div class="navBar">
                     <ul>
                         <li><a href="Rooms.php">Rooms & Accommodations</a></li>
