@@ -24,12 +24,8 @@
                   <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
 
-                <div class="forgotPass">
-                  <a href="#">Forgot password?</a>
-                </div>
-
                 <div class="button-group">
-                  <button class= "signin" type="submit" class="button">Sign In</button>
+                  <button class= "signin" type="submit" class="button" href="Home Page.php">Sign In</button>
                 </div>
 
 

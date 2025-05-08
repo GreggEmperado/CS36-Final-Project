@@ -14,8 +14,8 @@
             <div class="navBar">
                 <ul>
 
-                    <li><a href="news.asp">Rooms & Accommodations</a></li>
-                    <li><a href="contact.asp">Book Now</a></li>
+                    <li><a href="Rooms.php">Rooms & Accommodations</a></li>
+                    <li><a href="Booking.php">Book Now</a></li>
                 </ul> 
             </div>
 
@@ -24,8 +24,8 @@
                     <img src="resources/person.png" alt="Account Photo" class="accountPhoto"> Hi Gregg
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                    <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                    <li><a class="dropdown-item" href="signout.php">Sign Out</a></li>
+                    <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="LogInn.php">Sign Out</a></li>
                 </ul>
             </div>
         </header>
