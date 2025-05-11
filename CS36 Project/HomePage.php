@@ -1,3 +1,12 @@
+<?php
+    session_start();  
+    $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
+    $conn = new mysqli($servername, $username, $password, $database);   
+    if ($conn->connect_error)   
+        die("Connection failed ".$conn->connect_error);   
+    
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,11 +30,11 @@
 
             <div class="account dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"> Hi Gregg
+                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                    <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>
-                    <li><a class="dropdown-item" href="LogInn.php">Sign Out</a></li>
+                    <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>                   
+                    <li><a class="dropdown-item" href="LogOut.php">Sign Out</a></li>
                 </ul>
             </div>
         </header>

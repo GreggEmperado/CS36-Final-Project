@@ -1,18 +1,14 @@
 <?php     
-    // $conn = new mysqli("localhost", "root", "", "emperado dbe6");
-    // $sql = "SELECT * FROM employee";
-    // $result = $conn->query($sql);
-    $edit=null;
+    session_start();  
+    $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
+    $conn = new mysqli($servername, $username, $password, $database);   
+    if ($conn->connect_error)   
+        die("Connection failed ".$conn->connect_error);    
 
-    if (isset($_POST['edit'])){
-        $edit = 1;
+    if (!isset($_SESSION['memberID'])){
+        header("Location: LogIn.php");
+        exit();
     }
-
-    if (isset($_POST['acceptedit'])){
-        $edit = null;
-    }
-
-    $single = null;
 ?>
     
 <!DOCTYPE html>
@@ -36,7 +32,7 @@
 
             <div class="account dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"> Hi Gregg
+                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo "Hi, ".$_SESSION['fName']?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                     <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>
@@ -45,51 +41,28 @@
             </div>
     </header>
 
-
     <div class="container mt-5">
         <!-- Account Editing -->
         <div class="row">
             <div class="col-md-6">
             <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
             </div>
-            <?php if ($edit): ?>
-                <div class="col-md-3 mt-5">
-                    <form method="post">
-                       <h4> First Name</h4><p><input type="text" name="Fname" value="<?= $edit['Fname'] ?>"></p><br>
-                        <h4>Email</h4> <p><input type="text" name="Email" value="<?= $edit['Lname'] ?>"></p><br>
-                    </form>
-                </div>
-
-                <div class="col-md-3 mt-5">
-                    <form method="post">
-                        <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?= $edit['Birthday'] ?>"></p><br>
-                        <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?= $edit['Position'] ?>"></p><br>
-                        <button type="submit" name="acceptedit">Accept Changes</button>
-                    </form>
-                </div>
-            
-        
-            <?php else: ?>
-                <div class="col-md-3 mt-5">
-                <h4>First Name</h4>
-                <p>Gregg</p>
-                <h4>Email</h4>
-                <p>greggmemperado@su.edu.ph</p>
-                <br>
-                </div>
-                <div class="col-md-3 mt-5">
-                <h4>Last Name</h4>
-                <p>Emperado</p>
-                
-                <h4>Contact No.</h4>
-                <p>55554327896</p>
-                <form method="post">
-                <button type="submit" name="edit">Edit Profile</button>
+           
+            <div class="col-md-3 mt-5">
+                <form method="POST">
+                    <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
+                    <h4>Email</h4><p><input type="text" name="Email" value="<?php echo $_SESSION['email']; ?>"></p><br>
                 </form>
-                </div>
-            <?php endif; ?>
-        </div>
+            </div>
 
+            <div class="col-md-3 mt-5">
+                <form method="post">
+                    <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
+                    <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>
+                    <button type="submit" name="acceptedit">Accept Changes</button>
+                </form>
+            </div>            
+        </div>
 
         <div>
             <h1>Booking History</h1>
