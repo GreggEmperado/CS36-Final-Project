@@ -1,6 +1,10 @@
 body{
     background-color: #514f59;
     /* font-family: Inter; */
+    height:100%;
+    margin: 0;
+    display:flex;
+    flex-direction: column;
 }
 
 .container{
@@ -98,24 +102,36 @@ footer h1{
     font-family: baskerville;
 }
 
-.custom-table th, tr, td{
+.custom-table th, tr, td{/*class for tables*/
     text-align: center;
-    background-color: #d9d9d9 !important;
-
+    border: 2px solid #563517;
+    /* table-layout: auto; */
 }
 
 .custom-table th{
     font-size:1.2vw;
+    /* width:20%; */
+    background-color: #b3b3b3; /* Slightly darker gray */
+
 }
+
+
+.custom-table td{
+    font-size:0.9rem;
+    background-color: #d9d9d9 !important;
+}
+
+.custom-table th, .custom-table td {
+    /* word-wrap: break-word;  */
+    /* text-align: center; 
+    vertical-align: middle; */
+    padding:4px;
+}
+
 #calendar td {
     border: 1px solid grey;
   }
 
- /* #calendar td:hover{
-    cursor:pointer;
-    background-color: #e5d4ed !important;
-
- }  */
 #calendar a{
     color: black !important;
     text-decoration: none !important;
@@ -157,4 +173,38 @@ input[type="text"]{
 
 .room-grid:hover{
 border:1px solid black;
+}
+
+.logo-login{
+    display: block;;
+    margin-right: auto;
+    width: 15%;
+}
+
+.header-login{
+    display: flex;
+    background-color: #FFFFFF;
+}
+
+.manager-buttons {
+    display: block; /* Makes the links behave like block elements */
+    text-align: center; 
+    font-size: 1.2rem; 
+    padding: 10px 20px; 
+    margin-bottom: 10px; 
+    background-color: #1D1128;
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.manager-buttons:hover {
+    background-color: #5941A9;
+    color: white;
+    cursor: pointer;
+}
+
+h2{
+    font-family: Baskerville;
 }

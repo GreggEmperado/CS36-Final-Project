@@ -228,20 +228,20 @@
                         let roomCount = 0;
                         let totalprice = 0;
 
-                        function RoomSelect(element) {
+                        function RoomSelect(element) {//gets attributes from each room type
                             const imgSrc = element.getAttribute("data-img");
                             const roomDesc = element.getAttribute("data-room");
                             let price = Number(element.getAttribute("data-price"));
 
-                            roomCount++;
-                            totalprice += price;
+                            roomCount++; //Increases room count on click
+                            totalprice += price;//adds price
 
                             const container = document.getElementById("selected-rooms");
 
-                            const roomDiv = document.createElement("div");
+                            const roomDiv = document.createElement("div");//creates a new div for the selected rooms section
                             roomDiv.className = "row mb-3 align-items-center";
-                            roomDiv.id = `room-${roomCount}`;
-                            roomDiv.setAttribute("data-price", price);
+                            roomDiv.id = `room-${roomCount}`;//each selected room has an id room-{1,2,3...}
+                            roomDiv.setAttribute("data-price", price); //sets price attribute for subtraction
                             roomDiv.innerHTML = `
                                 <div class="col-md-3">
                                 <img src="${imgSrc}" class="img-fluid">
@@ -258,7 +258,7 @@
                             `;
 
                             container.appendChild(roomDiv);
-                            document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;
+                            document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;//Updates cart items & price
                             document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;
 
                             //repeat the searchRooms query                           
@@ -266,9 +266,9 @@
                             
                         }
 
-                        function removeRoom(roomId) {
+                        function removeRoom(roomId) {// removes the selected room when Remove button is clicked
                             const roomDiv = document.getElementById(roomId);
-                            let price = Number(roomDiv.getAttribute("data-price"));
+                            let price = Number(roomDiv.getAttribute("data-price"));// Decrease room count and price depending on removed room type
                             roomCount--;
 
                             if (roomDiv) {
