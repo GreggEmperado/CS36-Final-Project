@@ -68,7 +68,6 @@
         if (!empty($password) && !empty($confirm) && $password !== $confirm) {
             $confirmErr = "Passwords do not match.";
     }
-        
         if (empty($fNameErr) && empty($lNameErr) && empty($phoneErr) && empty($emailErr) && empty($passwordErr) && empty($confirmErr)){ 
                        
             $add = $conn->prepare("INSERT INTO members (memberID, firstName, lastName, phoneNumber, email, password) VALUES (?,?,?,?,?,?)");

@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
           });
         
         document.getElementById("checkin-date").innerText = checkIn;
+        document.getElementById("hidden-checkin").value = checkIn;
+    
         document.getElementById("checkout-date").innerText = 'None';
       } else if (!checkOut && info.startStr > checkIn) {
         checkOut = info.startStr;
@@ -76,8 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         document.getElementById("checkout-date").innerText = checkOut;
+        document.getElementById("hidden-checkout").value = checkOut;        
       } else {
-        alert("Please select a check-out date after check-in.");
+            alert("Please select a check-out date after check-in.");
       }
     },
 
