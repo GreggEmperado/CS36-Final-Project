@@ -8,9 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     selectable: true,
-    // validRange: {
-    //     start: new Date().toISOString().split('T')[0]  // disallow past dates
-    //   },
     select: function (info) {
       if (!checkIn || (checkIn && checkOut)) {
 
@@ -19,13 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
         today.setHours(0, 0, 0, 0); // Normalize to midnight
       
         if (selectedDate < today) {
-        //   alert("You cannot select a date before today.");
-          return; // Stop selection
+          return; // Stop selection if date is before today
         }
         // Reset selection
         checkIn = info.startStr;
         checkOut = null;
         calendar.removeAllEvents();
+        //Puts label on check in date
         calendar.addEvent({
           title: 'Check-In',
           start: checkIn,
@@ -33,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
           backgroundColor: '#6d72c3'
         });
 
+        //Gives a background color to the check-in date
         calendar.addEvent({
             start: checkIn,
             allDay: true,
@@ -44,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("checkout-date").innerText = 'None';
       } else if (!checkOut && info.startStr > checkIn) {
         checkOut = info.startStr;
+                //Puts label on check out date
         calendar.addEvent({
           title: 'Check-Out',
           start: checkOut,
@@ -51,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
           backgroundColor: '#6d72c3',
         });
 
+                //Gives a background color to the check-out date
         calendar.addEvent({
             start: checkOut,
             allDay: true,
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             backgroundColor: '#ffc107'
           });
 
-        // Highlight intermediate days
+        // Highlight days between check in and check out
         const start = new Date(checkIn);
         const end = new Date(checkOut);
         let current = new Date(start);
