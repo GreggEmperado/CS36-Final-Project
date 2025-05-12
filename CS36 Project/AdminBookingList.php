@@ -23,11 +23,75 @@
                     <a class="manager-buttons" href="AdminRoomManagement.php">Room Manager</a><br>
                     <a class="manager-buttons" href="AdminGuestList.php">Member Manager</a><br>
                     <a class="manager-buttons" href="AdminBookingList.php">Booking Manager</a><br>
+
+                    <!-- Daily Bookings Modal -->
+                    <div class="modal fade" id="dailyBookingsModal" tabindex="-1" aria-labelledby="dailyBookingsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="dailyBookingsModalLabel">Daily Bookings Report</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Booking ID</th>
+                                                <th>Member ID</th>
+                                                <th>Room Number</th>
+                                                <th>Check-In</th>
+                                                <th>Check-Out</th>
+                                                <th>Booking Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // Example PHP code to fetch daily booking data
+                                            $conn = new mysqli("localhost", "root", "", "hotelDB");
+
+                                            if ($conn->connect_error) {
+                                                die("Connection failed: " . $conn->connect_error);
+                                            }
+
+                                            // Fetch today's bookings
+                                            $today = date('Y-m-d');
+                                            $sql = "SELECT booking_id, member_id, room_number, check_in, check_out, booking_date
+                                                    FROM bookings
+                                                    WHERE booking_date = '$today'";
+                                            $result = $conn->query($sql);
+
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<tr>
+                                                            <td>{$row['booking_id']}</td>
+                                                            <td>{$row['member_id']}</td>
+                                                            <td>{$row['room_number']}</td>
+                                                            <td>{$row['check_in']}</td>
+                                                            <td>{$row['check_out']}</td>
+                                                            <td>{$row['booking_date']}</td>
+                                                        </tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='6'>No bookings found for today</td></tr>";
+                                            }
+
+                                            $conn->close();
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-10 justify-content-center ps-5">
                 <h4>List of Bookings</h4>
-                <br>
+                <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#dailyBookingsModal" style="background-color:#1d1128; border: 1px solid #1d1128; color: white;">Generate Daily Booking Report</button>
+                <br><br>
                 
                     <table class="table table-bordered">
                     <thead>

@@ -77,10 +77,69 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Booking per Room Modal -->
+                    <div class="modal fade" id="bookingPerRoomModal" tabindex="-1" aria-labelledby="bookingPerRoomModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="bookingPerRoomModalLabel">Booking per Room Report</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Room Number</th>
+                                                <th>Room Type</th>
+                                                <th>Total Bookings</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // Example PHP code to fetch booking data grouped by room
+                                            $conn = new mysqli("localhost", "root", "", "hotelDB");
+
+                                            if ($conn->connect_error) {
+                                                die("Connection failed: " . $conn->connect_error);
+                                            }
+
+                                            $sql = "SELECT r.room_number, r.room_type, COUNT(b.booking_id) AS total_bookings
+                                                    FROM rooms r
+                                                    LEFT JOIN bookings b ON r.room_number = b.room_number
+                                                    GROUP BY r.room_number, r.room_type";
+                                            $result = $conn->query($sql);
+
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<tr>
+                                                            <td>{$row['room_number']}</td>
+                                                            <td>{$row['room_type']}</td>
+                                                            <td>{$row['total_bookings']}</td>
+                                                        </tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='3'>No bookings found</td></tr>";
+                                            }
+
+                                            $conn->close();
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                
                 <div class="col-md-10 justify-content-center ps-5">
                 <h4 class="row">Room Management</h4>
                 <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>
+                <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#bookingPerRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128; color: white;">Generate Booking Report</button>
                 <br>
                 <br>
                     <table class="table table-bordered">
