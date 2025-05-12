@@ -36,10 +36,10 @@ $sqlBookingTable = "CREATE TABLE IF NOT EXISTS bookings(
     roomID INT NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
-    bookingDate DATETIME NOT NULL,
+    bookingDate DATE NOT NULL DEFAULT CURRENT_DATE,
     status VARCHAR(25) NOT NULL,
-    FOREIGN KEY (memberID) REFERENCES members(memberID),
-    FOREIGN KEY (roomID) REFERENCES rooms(roomID)
+    FOREIGN KEY (memberID) REFERENCES members(memberID) ON UPDATE CASCADE,
+    FOREIGN KEY (roomID) REFERENCES rooms(roomID) ON UPDATE CASCADE
 );"; 
 
 $sqlAvailability = "CREATE TABLE IF NOT EXISTS roomAvailability(

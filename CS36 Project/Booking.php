@@ -12,6 +12,7 @@
         $roomslist = 1;
     }
 
+    //Search query for available room types
     if ($_SERVER['REQUEST_METHOD'] == "POST" && (isset($_POST['searchRooms']))){        
         $_SESSION['checkin'] = $_POST['checkin'];
         $_SESSION['checkout'] = $_POST['checkout'];  
@@ -63,15 +64,69 @@
                     $roomPent = true;               
             }
         } else {
-            echo "No available room types found.";
+            echo "No available room types found."; //TEMPORARY TEMPO TEMPO TEMPO
         }        
 
         $stmt->close();
         $conn->close();
     }
 
-    if(isset($_POST['repeatQuery'])){
-        echo "Hi";
+    //Booking the room
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['confirm'])){
+        $memberID = $_SESSION['memberID'];
+        $roomType = $_POST['roomType'];
+        $roomID = "";
+        $checkInDate = $_SESSION['checkin'];
+        $checkOutDate = $_SESSION['checkout'];
+        $status = "pending";        
+
+        //Search for available rooms based on the room type
+        $sql = "SELECT r.roomID
+                FROM rooms r
+                WHERE r.roomType = ?  
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM roomAvailability ra
+                    WHERE ra.roomID = r.roomID
+                    AND ra.date BETWEEN ? AND ?  
+                )
+                AND r.isAvailable = TRUE  
+                LIMIT 1
+                ";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sss", $roomType, $checkInDate, $checkOutDate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        //This just checks the available rooms
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $roomID = $row['roomID'];
+        }
+
+        $insertSql = "INSERT INTO bookings (memberID, roomID, checkInDate, checkOutDate, status)
+                      VALUES (?, ?, ?, ?, ?)";
+        $insertStmt = $conn->prepare($insertSql);
+        $insertStmt->bind_param("sssss", $memberID, $roomID, $checkInDate, $checkOutDate, $status);
+        $insertStmt->execute();
+
+        echo "Booking confirmed for room ID: $roomID";
+
+        //Update room availability for each day in the booking period
+        $currentDate = $checkInDate;
+        while ($currentDate <= $checkOutDate) {
+            $availabilitySql = "INSERT INTO roomAvailability (roomID, date)
+                                VALUES (?, ?)
+                                ON DUPLICATE KEY UPDATE roomID = roomID
+            ";
+            $availabilityStmt = $conn->prepare($availabilitySql);
+            $availabilityStmt->bind_param("ss", $roomID, $currentDate);
+            $availabilityStmt->execute();
+
+            //Increment the day
+            $currentDate = date('Y-m-d', strtotime($currentDate . ' +1 day'));
+        }        
     }
 ?>
 
@@ -95,7 +150,7 @@
                 <div class="account dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="resources/person.png" alt="Account Photo" class="accountPhoto">
-                            <?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
+                            <?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "<a href='Sign-Up.php'>Sign-Up</a>"; ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                         <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>
@@ -141,7 +196,7 @@
 
                 <div id="calendar"></div>                
 
-                <form method="POST" id="repeatQuery" target="hiddenFrame">
+                <form method="POST">
                     <input type="hidden" id="hidden-checkin" name="checkin" value="<?php echo $checkInDate; ?>">
                     <input type="hidden" id="hidden-checkout" name="checkout" value="<?php echo $checkOutDate; ?>">
                     <button type="submit" name="searchRooms" id="searchRooms" class="btn-outline-info mt-5" value="Look">Look for Available Rooms</button>                    
@@ -156,7 +211,8 @@
                     <br>
                     <div class = "row">
                         <div class="col-md-4 text-center room-grid" onclick="RoomSelect(this)" name="singleRoom"
-                            style="display: <?php if ($roomSingle) { echo 'block'; } else { echo 'none'; } ?>" 
+                            style="display: <?php if ($roomSingle) { echo 'block'; } else { echo 'none'; } ?>"
+                            data-roomType="single" 
                             data-room="Single Bedroom. Good for 2 persons"
                             data-price=2250 
                             data-img="resources/singleBedRoom.jpg">
@@ -165,14 +221,16 @@
                         </div>
                         <div class="col-md-4 text-center room-grid" onclick="RoomSelect(this)" 
                             style="display: <?php if ($roomDouble) { echo 'block'; } else { echo 'none'; } ?>"
+                            data-roomType="double" 
                             data-room="Double Bedroom. Good for 3 persons" 
                             data-price=5000 
                             data-img="resources\doubleBedRoom.jpg">
                                 <img src="resources\doubleBedRoom.jpg" id="roomsimg">
-                                <p>Double</p>
+                                <p>Double</p>                                
                         </div>
                         <div class="col-md-4 text-center room-grid" onclick="RoomSelect(this)" 
                             style="display: <?php if ($roomSuite) { echo 'block'; } else { echo 'none'; } ?>"
+                            data-roomType="suite" 
                             data-room="Suite Bedroom. Good for 4 persons" 
                             data-price=7000 
                             data-img="resources\image2.png">
@@ -184,6 +242,7 @@
                     <div class = "row">
                         <div class="col-md-4 text-center room-grid" onclick="RoomSelect(this)" 
                             style="display: <?php if ($roomKing) { echo 'block'; } else { echo 'none'; } ?>"
+                            data-roomType="king" 
                             data-room="King Bedroom. Good for 6 persons" 
                             data-price=9000 
                             data-img="resources\king-room.jpg">
@@ -192,6 +251,7 @@
                         </div>
                         <div class="col-md-4 text-center room-grid" onclick="RoomSelect(this)" 
                             style="display: <?php if ($roomStudio) { echo 'block'; } else { echo 'none'; } ?>"
+                            data-roomType="studio" 
                             data-room="Studio Bedroom. Good for 8 persons" 
                             data-price=10000 
                             data-img="resources\studio-room.jpg">
@@ -200,6 +260,7 @@
                         </div>
                         <div class="col-md-4 text-center room-grid" onclick="RoomSelect(this)" 
                             style="display: <?php if ($roomPent) { echo 'block'; } else { echo 'none'; } ?>"
+                            data-roomType="pent" 
                             data-room="Penthouse Bedroom. Good for 10 persons" 
                             data-price= 12000 
                             data-img="resources\penthouse.jpg">
@@ -219,7 +280,8 @@
 
                     <div class="col-md-5">
                         <h4 id="cart">Your Cart: 0 Item(s)</h4>
-                        <p id="total-price">Total: PHP0</p><button type="submit">Confirm Booking</button>
+                        <p id="total-price">Total: PHP0</p>
+                        <button type="submit" name="confirm" id="confirm" disabled>Confirm Booking</button>
                     </div>
 
                 </form>
@@ -229,8 +291,17 @@
                         let totalprice = 0;
 
                         function RoomSelect(element) {//gets attributes from each room type
+
+                            //Disable all rooms after a selection
+                            const allRooms = document.querySelectorAll('[data-room]');
+                            allRooms.forEach(room => {
+                                room.onclick = null;  //Disable clicking
+                            });
+
+                            element.setAttribute("data-selected", "true");
                             const imgSrc = element.getAttribute("data-img");
-                            const roomDesc = element.getAttribute("data-room");
+                            const roomDesc = element.getAttribute("data-room");   
+                            const roomType = element.getAttribute("data-roomType");                       
                             let price = Number(element.getAttribute("data-price"));
 
                             roomCount++; //Increases room count on click
@@ -255,14 +326,17 @@
                                 <div class="col-md-3">
                                 <button class="btn btn-danger" onclick="removeRoom('room-${roomCount}')">Remove</button>
                                 </div>
+                                <input type="hidden" name="roomType" value="${roomType}">
                             `;
 
                             container.appendChild(roomDiv);
                             document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;//Updates cart items & price
-                            document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;
-
-                            //repeat the searchRooms query                           
-                            document.getElementById("repeatQuery").submit();
+                            document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;      
+                            
+                            //Enable the "Confirm" button if a room is selected
+                            if (roomCount > 0) {
+                                document.getElementById("confirm").disabled = false;  // Enable the button
+                            }
                             
                         }
 
@@ -273,9 +347,22 @@
 
                             if (roomDiv) {
                                 totalprice -= price;
+
                                 document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;
                                 document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;
-                                    roomDiv.remove();
+
+                                roomDiv.remove();
+                                
+                                //Re-enable all rooms by adding the onclick back
+                                const allRooms = document.querySelectorAll('[data-room]');
+                                allRooms.forEach(room => {
+                                    room.onclick = () => RoomSelect(room); //Add the click event back
+                                });
+
+                                // If no rooms are selected, disable the "Confirm" button again
+                                if (roomCount === 0) {
+                                    document.getElementById("confirm").disabled = true;  // Disable the button
+                                }
                             }
                         }
                 </script>
