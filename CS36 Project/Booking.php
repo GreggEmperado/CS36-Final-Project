@@ -141,7 +141,8 @@
     <link href="Booking&Account.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@4.0.0-alpha.3/dist/fullcalendar.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="calendar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/calendar.js"></script>
     </head>
     <body>
         <header>
@@ -154,7 +155,7 @@
                 </div>
                 <div class="account dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
+                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo "Hi, ".$_SESSION['fName']?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                     <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>
@@ -165,27 +166,6 @@
     
         <div class="container">
         <div class="container mt-5">
-        <!-- <h1 class="pt-2">Personal Information</h1>
-        <hr>
-        <div class="row">
-            <div class="col-md-6">
-                <img src="resources\defaultprofile.png" class="img-fluid profileimg rounded-circle pt-3 m-5">
-            </div>
-            <div class="col-md-3 mt-5">
-                <h4>First Name</h4>
-                <p>Gregg</p>
-                <h4>Email</h4>
-                <p>greggmemperado@su.edu.ph</p>
-                <br>
-            </div>
-            <div class="col-md-3 mt-5">
-                <h4>Last Name</h4>
-                <p>Emperado</p>
-                
-                <h4>Contact No.</h4>
-                <p>55554327896</p>
-            </div>
-        </div> -->
 
         <div class="row pt-5">
             <div class="col-md-6">
