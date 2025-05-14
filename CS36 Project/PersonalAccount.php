@@ -5,13 +5,23 @@
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);    
 
+    //Cant access this page if not logged in
     if (!isset($_SESSION['memberID'])){
         header("Location: LogIn.php");
         exit();
     }
 
-    $sql = "SELECT * FROM bookings WHERE memberID = '".$_SESSION['memberID']."'";
-    $result = $conn->query($sql);
+    $memberID = $_SESSION['memberID'];
+
+    $sql = $conn->prepare("SELECT a.bookingID, b.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
+                           FROM bookings a
+                           INNER JOIN rooms b 
+                           ON a.roomID = b.roomID
+                           WHERE a.memberID = ?
+                           ORDER BY a.bookingDate DESC");
+    $sql->bind_param("i", $memberID);
+    $sql->execute();
+    $result = $sql->get_result();    
 ?>
     
 <!DOCTYPE html>
@@ -59,10 +69,10 @@
             </div>
 
             <div class="col-md-3 mt-5">
-                <form method="post">
+                <form method="POST">
                     <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
                     <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>
-                    <button type="submit" name="acceptedit">Accept Changes</button>
+                    <button type="submit" name="edit details">Edit Details</button>
                 </form>
             </div>            
         </div>
@@ -74,31 +84,29 @@
                 <thead>        
                     <tr>
                         <th>BookingID</th>
-                        <th>Name</th>
-                        <th>Type</th>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
                         <th>Booked on</th>
                         <th>Check In</th>
                         <th>Check Out</th>
                         <th>Status</th>
                     </tr>    
                 </thead>    
-                
+
                 <tbody>         
                     <?php            
-                        if ($result->num_rows > 0) {
+                        if ($result->num_rows > 0) { //If there are bookings                           
                             while ($row = $result->fetch_assoc()) {
-                    ?>                   
-                                        
-                                    <tr>
-                                        <td><?php echo $row['bookingID']; ?></td>
-                                        <td><?php //echo $row['Fname']. $row['Lname']; ?></td>
-                                        <td><?php //echo $row['Lname']; ?></td>
-                                        <td><?php echo $row['bookingDate']; ?></td>
-                                        <td><?php echo $row['checkInDate']; ?></td>
-                                        <td><?php echo $row['checkOutDate']; ?></td>
-                                        <td> <?php echo $row['status']; ?></td>
-                                        </tr> <?php       }            }        ?>                    
-                                
+                    ?>                                                           
+                            <tr>
+                                <td><?php echo $row['bookingID']; ?></td>
+                                <td><?php echo $row['roomNumber']; ?></td>
+                                <td><?php echo $row['roomType']; ?></td>
+                                <td><?php echo $row['bookingDate']; ?></td>
+                                <td><?php echo $row['checkInDate']; ?></td>
+                                <td><?php echo $row['checkOutDate']; ?></td>
+                                <td><?php echo $row['status']; ?></td>
+                            </tr> <?php  } } ?>                         
                 </tbody>
             </table>
         </div>
