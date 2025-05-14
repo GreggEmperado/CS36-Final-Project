@@ -28,14 +28,21 @@
                 </ul> 
             </div>
 
-            <div class="account dropdown">
+            <!-- Show this div if a user is logged in, hide if not-->
+            <div class="account dropdown" style="display: <?php echo (isset($_SESSION['fName'])) ? "block" : "none"; ?>">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
+                    <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo "Hi, ".$_SESSION['fName']; ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                     <li><a class="dropdown-item" href="PersonalAccount.php">Profile</a></li>                   
                     <li><a class="dropdown-item" href="LogOut.php">Sign Out</a></li>
                 </ul>
+            </div>
+            <!-- Show this div if a user is not logged in, hide if logged in-->
+            <div class="account dropdown" style="display: <?php echo (!isset($_SESSION['fName'])) ? "block" : "none"; ?>">
+                <a href="LogIn.php"><button class="btn btn-secondary dropdown-toggle" type="button">
+                    Log In
+                </button></a>              
             </div>
         </header>
 
