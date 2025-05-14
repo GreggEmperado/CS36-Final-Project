@@ -77,11 +77,11 @@
 
                   <label class="label">Email</label><br>
                   <input type="email" name="email" placeholder="Enter your email" value="<?php echo $email; ?>"> <br>
-                  <p><?php echo " ".$emailErr; ?></p>
+                  <p class="error"><?php echo " ".$emailErr; ?></p>
                   
                   <label class="label">Password</label><br>
                   <input type="password" name="password" placeholder="Enter your password" required>
-                  <p><?php echo " ".$passErr; ?></p>
+                  <p class="error"><?php echo " ".$passErr; ?></p>
                 </div>
 
                 <div class="button-group">
