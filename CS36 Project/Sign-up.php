@@ -46,9 +46,22 @@
             $emailTemp = clean_input($_POST["email"]);
             if (!filter_var($emailTemp, FILTER_VALIDATE_EMAIL))
                 $emailErr = "Invalid email.";
-            else
-                $email = $emailTemp;
-        }            
+            else{
+                //Check if email is already used
+                $query = "SELECT memberID FROM members WHERE email = ?";
+
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("s", $emailTemp);
+                $stmt->execute();
+                $stmt->store_result();
+                
+                if ($stmt->num_rows > 0) //If true, then the email is already registered.
+                    $emailErr = "Email is already used.";                
+                else                    
+                    $email = $emailTemp;
+                }            
+            }     
+             
     
         if (empty($_POST['password']))
             $passwordErr = "Password is required.";
@@ -75,8 +88,7 @@
             $add->execute();           
             $conn->close();             
             header("Location: LogIn.php");
-            exit();
-                      
+            exit();                      
         }
         else
             echo $memberID.$fName.$lName.$phone.$email.$password; //TEMPORARY TEMPORTARY RTERSMEP
@@ -105,33 +117,33 @@
         </header>
 
         <div class="form-log-in">
-            <form class="form" method="POST">
+            <form class="form" method="POST" autocomplete="off">
                 <h1>Sign Up</h1>
 
                 <div class="input-field">
                     <label class="label">First Name</label><br>
                     <input type="firstName" name="fName" placeholder="Enter your first name" value="<?php echo $fName; ?>" required> <br>
-                    <p><?php echo " ".$fNameErr; ?></p>
+                    <p class="error"><?php echo " ".$fNameErr; ?></p>
                   
                     <label class="label">Last Name</label><br>
                     <input type="lastName" name="lName" placeholder="Enter your last name" value="<?php echo $lName; ?>" required> <br>
-                    <p><?php echo " ".$lNameErr; ?></p>
+                    <p class="error"><?php echo " ".$lNameErr; ?></p>
 
                     <label class="label">Email</label><br>
                     <input type="email" name="email" placeholder="Enter your email" value="<?php echo $email; ?>" required> <br>
-                    <p><?php echo " ".$emailErr; ?></p>
+                    <p class="error"><?php echo " ".$emailErr; ?></p>
 
                     <label class="label">Phone Number</label><br>
                     <input type="firstName" name="phone" placeholder="Enter your phone number" value="<?php echo $phone; ?>" required> <br>
-                    <p><?php echo " ".$phoneErr; ?></p>
+                    <p class="error"><?php echo " ".$phoneErr; ?></p>
                   
                     <label class="label">Password</label><br>
                     <input type="password" name="password" placeholder="Enter your password" required> <br>
-                    <p><?php echo " ".$passwordErr; ?></p>
+                    <p class="error"><?php echo " ".$passwordErr; ?></p>
 
                     <label class="label">Confirm Password</label><br>
                     <input type="password" name="confirmPassword" placeholder="Confirm your password" required> <br>
-                    <p><?php echo " ".$confirmErr; ?></p>
+                    <p class="error"><?php echo " ".$confirmErr; ?></p>
                 </div>
                 <div class="button-group">
                   <button class= "signin" type="submit" class="button" href="LogIn.Php">Sign up</button>
