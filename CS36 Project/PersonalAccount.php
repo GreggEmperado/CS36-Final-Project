@@ -106,7 +106,10 @@
                                 <td><?php echo $row['checkInDate']; ?></td>
                                 <td><?php echo $row['checkOutDate']; ?></td>
                                 <td><?php echo $row['status']; ?></td>
-                            </tr> <?php  } } ?>                         
+                            </tr> 
+                            <?php  } }else {
+                                        echo "<tr><td colspan='7'>No bookings found</td></tr>";
+                                        } ?>                         
                 </tbody>
             </table>
         </div>
