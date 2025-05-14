@@ -170,9 +170,14 @@ input[type="text"]{
     border: 1px solid black;
 }
 
+.room-grid{
+    gap:15px;
+    cursor:pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation for scaling and shadow */
+}
 
 .room-grid:hover{
-border:1px solid black;
+    transform: scale(1.1); /* Enlarges the element by 10% */
 }
 
 .logo-login{
