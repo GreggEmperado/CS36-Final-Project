@@ -9,6 +9,9 @@
         header("Location: LogIn.php");
         exit();
     }
+
+    $sql = "SELECT * FROM bookings WHERE memberID = '".$_SESSION['memberID']."'";
+    $result = $conn->query($sql);
 ?>
     
 <!DOCTYPE html>
@@ -82,19 +85,19 @@
                 
                 <tbody>         
                     <?php            
-                        // if ($result->num_rows > 0) {
-                        //     while ($row = $result->fetch_assoc()) {
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
                     ?>                   
                                         
                                     <tr>
-                                        <td><?php //echo $row['EmpID']; ?></td>
-                                        <td><?php //echo $row['Fname']; ?></td>
+                                        <td><?php echo $row['bookingID']; ?></td>
+                                        <td><?php //echo $row['Fname']. $row['Lname']; ?></td>
                                         <td><?php //echo $row['Lname']; ?></td>
-                                        <td><?php //echo $row['Birthday']; ?></td>
-                                        <td><?php //echo $row['Position']; ?></td>
-                                        <td><?php //echo $row['Salary']; ?></td>
-                                        <td></td>
-                                        </tr> <?php //      }            }        ?>                    
+                                        <td><?php echo $row['bookingDate']; ?></td>
+                                        <td><?php echo $row['checkInDate']; ?></td>
+                                        <td><?php echo $row['checkOutDate']; ?></td>
+                                        <td> <?php echo $row['status']; ?></td>
+                                        </tr> <?php       }            }        ?>                    
                                 
                 </tbody>
             </table>
