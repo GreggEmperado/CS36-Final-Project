@@ -1,16 +1,9 @@
 <?php
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $maindb = "emperado dbe6";
-
-
-// $conn = new mysqli($servername, $username, $password);
-
-
-// if($conn->connect_error){
-//    die("Connection failed: ". $conn->connect_error);
-// }
+    session_start();  
+    $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
+    $conn = new mysqli($servername, $username, $password, $database);   
+    if ($conn->connect_error)   
+        die("Connection failed ".$conn->connect_error);
 ?>
 <html>
     <head>
@@ -38,8 +31,7 @@
                     <a class="manager-buttons" href="AdminGuestList.php">Member Manager</a><br>
                     <a class="manager-buttons" href="AdminBookingList.php">Booking Manager</a><br>
 
-
-                    <!-- Create Room Modal -->
+                    <!-- Create Room Modal-->
                     <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -78,7 +70,7 @@
                         </div>
                     </div>
 
-                    <!-- Booking per Room Modal -->
+                    <!-- Booking per Room Modal-->
                     <div class="modal fade" id="bookingPerRoomModal" tabindex="-1" aria-labelledby="bookingPerRoomModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -96,33 +88,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                            // Example PHP code to fetch booking data grouped by room
-                                            $conn = new mysqli("localhost", "root", "", "hotelDB");
+                                            <?php                                           
+                                                $sql = "SELECT a.roomNumber, a.roomType, COUNT(b.bookingID) AS totalBookings
+                                                        FROM rooms a
+                                                        LEFT JOIN bookings b 
+                                                        ON a.roomNumber = b.roomNumber
+                                                        GROUP BY a.roomNumber, a.roomType";
+                                                $result = $conn->query($sql);
 
-                                            if ($conn->connect_error) {
-                                                die("Connection failed: " . $conn->connect_error);
-                                            }
-
-                                            $sql = "SELECT r.room_number, r.room_type, COUNT(b.booking_id) AS total_bookings
-                                                    FROM rooms r
-                                                    LEFT JOIN bookings b ON r.room_number = b.room_number
-                                                    GROUP BY r.room_number, r.room_type";
-                                            $result = $conn->query($sql);
-
-                                            if ($result->num_rows > 0) {
-                                                while ($row = $result->fetch_assoc()) {
-                                                    echo "<tr>
-                                                            <td>{$row['room_number']}</td>
-                                                            <td>{$row['room_type']}</td>
-                                                            <td>{$row['total_bookings']}</td>
-                                                        </tr>";
-                                                }
-                                            } else {
-                                                echo "<tr><td colspan='3'>No bookings found</td></tr>";
-                                            }
-
-                                            $conn->close();
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "<tr>
+                                                                <td>{$row['roomNumber']}</td>
+                                                                <td>{$row['roomType']}</td>
+                                                                <td>{$row['totalBookings']}</td>
+                                                             </tr>";
+                                                    }
+                                                } else {
+                                                    echo "<tr><td colspan='3'>No bookings found</td></tr>";
+                                                }                                                
                                             ?>
                                         </tbody>
                                     </table>
@@ -132,68 +116,56 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>            
                 </div>
-
-                
-                <div class="col-md-10 justify-content-center ps-5">
-                <h4 class="row">Room Management</h4>
-                <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>
-                <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#bookingPerRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128; color: white;">Generate Booking Report</button>
-                <br>
-                <br>
-                    <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Room Number</th>
-                            <th>Room Type</th>
-                            <th>Capacity</th>
-                            <th>Availability</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            // $conn = new mysqli("localhost", "root", "", "hotelDB");
-                            // $sql = "SELECT * FROM rooms";
-                            // $result = $conn->query($sql);
                             
-                            // if ($result->num_rows > 0) {
-                            //     while ($row = $result->fetch_assoc()) {
-                        ?>
-                                    <tr>
-                                        <td scope="col"><?php //echo $row['room_number']; ?></td>
-                                        <td scope="col"><?php //echo $row['room_type']; ?></td>
-                                        <td scope="col"><?php //echo $row['price']; ?></td>
-                                        <td scope="col"><?php //echo $row['status']; ?></td>
-                                        <td scope="col">
-                                            <form method="post" action="AdminRoomManagement.php">
-                                                <input type="hidden" name="roomID" value="<?php //echo $row['roomID']; ?>">
-                                                <button type="submit" name="edit" class="btn btn-primary">Edit</button>
-                                                <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-
-                                    
-
-                                    
-                        <?php
-                            //     }
-                            // } else {
-                            //     echo "<tr><td colspan='4'>No rooms found</td></tr>";
-                            // }
-                        ?>
-                    </tbody>
+                <div class="col-md-10 justify-content-center ps-5">
+                    <h4 class="row">Room Management</h4>
+                    <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>
+                    <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#bookingPerRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128; color: white;">Generate Booking Report</button>
+                    <br>
+                    <br>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Room Number</th>
+                                <th>Room Type</th>
+                                <th>Capacity</th>
+                                <th>Availability</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>   
+                        <tbody>
+                            <?php                                           
+                                $sql = "SELECT * FROM rooms";                                        
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {                                        
+                            ?>       
+                            <tr>
+                                <td><?php echo $row['roomNumber']; ?></td>
+                                <td><?php echo $row['roomType']; ?></td>
+                                <td><?php echo $row['capacity']; ?></td>
+                                <td><?php echo $row['isAvailable']; ?></td>
+                                <td>
+                                    <form method="POST" action="">                                                                                  
+                                        <button type="submit" name="edit" class="btn btn-primary">Edit</button>
+                                        <button type="submit" name="delete" class="btn btn-danger">Cancel</button>
+                                    </form>
+                                </td>                                
+                            </tr>
+                            <?php
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5'>No rooms found</td></tr>";
+                                }
+                            ?>
+                        </tbody>                     
                     </table>
                 </div>
-
-            <!-- <form method="get" action="AdminDashboard.php" style="display:inline;">
-                <button type="submit" class="btn btn-primary">Back to Dashboard</button>
-            </form> -->
+            </div>
         </div>
-        </div>
-
+        
         <script>
             document.getElementById('createRoomButton').addEventListener('click', function () {
                 const form = document.getElementById('createRoomForm');

@@ -13,9 +13,8 @@ else
 
 $conn = new mysqli($servername, $username, $password, $database);
 
-$sqlRoomTable = "CREATE TABLE IF NOT EXISTS rooms(
-    roomID INT AUTO_INCREMENT PRIMARY KEY, 
-    roomNumber TEXT NOT NULL,
+$sqlRoomTable = "CREATE TABLE IF NOT EXISTS rooms(    
+    roomNumber VARCHAR(5) PRIMARY KEY,
     roomType TEXT NOT NULL, 
     roomCapacity INT NOT NULL,
     isAvailable BOOLEAN DEFAULT TRUE
@@ -33,21 +32,21 @@ $sqlMemberTable = "CREATE TABLE IF NOT EXISTS members(
 $sqlBookingTable = "CREATE TABLE IF NOT EXISTS bookings(
     bookingID INT AUTO_INCREMENT PRIMARY KEY,
     memberID INT DEFAULT NULL,
-    roomID INT NOT NULL,
+    roomNumber VARCHAR(5) NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
     bookingDate DATE NOT NULL DEFAULT CURRENT_DATE,
     status VARCHAR(25) NOT NULL,
     FOREIGN KEY (memberID) REFERENCES members(memberID) ON UPDATE CASCADE,
-    FOREIGN KEY (roomID) REFERENCES rooms(roomID) ON UPDATE CASCADE
+    FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON UPDATE CASCADE
 );"; 
 
 $sqlAvailability = "CREATE TABLE IF NOT EXISTS roomAvailability(
         id INT AUTO_INCREMENT PRIMARY KEY,
-        roomID INT NOT NULL,
+        roomNumber VARCHAR(5) NOT NULL,
         date DATE NOT NULL,
-        UNIQUE (roomID, date),
-        FOREIGN KEY (roomID) REFERENCES rooms(roomID) ON DELETE CASCADE
+        UNIQUE (roomNumber, date),
+        FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON DELETE CASCADE
 );";
 
 if ($conn->query($sqlRoomTable) === TRUE) {
