@@ -5,26 +5,33 @@
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);    
 
-    //Cant access this page if not logged in
-    if (!isset($_SESSION['memberID'])){
+    //Get the ID of the logged in user
+    if (isset($_SESSION['memberID'])) 
+        $memberID = $_SESSION['memberID'];    
+    else {
+    // Redirect to login page or handle the error
         header("Location: LogIn.php");
         exit();
     }
 
-    $memberID = $_SESSION['memberID'];
-    if (isset($_POST["acceptchanges"])){
-        $fName = $_SESSION['fName'];
-        $lName = $_SESSION["lName"];
-        $Email = $_SESSION["email"];
-        $Contact = $_SESSION["phone"];
-        $sql = $conn->prepare(query:"UPDATE members SET 
-                                firstName = ?, 
-                                lastName = ?, 
-                                phoneNumber =? 
-                                WHERE memberID = ?");
-    $sql->bind_param("sssi", $fName, $lName, $Contact, $memberID);
-    $sql->execute();
+    $fName = $lName = $phone = "";
+
+    //Change profile information
+    if (isset($_POST['change'])){
+        $fName = $_POST['fName'];
+        $lName = $_POST["lName"];       
+        $phone = $_POST["phone"];
+
+        $sql = $conn->prepare("UPDATE members SET firstName = ?, lastName = ?, phoneNumber = ? WHERE memberID = ?");
+        $sql->bind_param("sssi", $fName, $lName, $phone, $memberID);
+        $sql->execute();
+
+        $_SESSION['fName'] = $fName;
+        $_SESSION['lName'] = $lName;
+        $_SESSION['phone'] = $phone;
+        
     }
+
     //Cancellation of booking
     if (isset($_POST['cancel'])){ 
 
@@ -46,16 +53,14 @@
             $sql2->execute();
             $current = strtotime("+1 day", $current);
         }
-    }
-
-    $memberID = $_SESSION['memberID'];     
+    }     
 ?>
     
 <!DOCTYPE html>
 <html>
     <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="Booking&Account.css" rel="stylesheet">
+    <link href="Booking&Account.css" rel="stylesheet">    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
@@ -107,30 +112,25 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
-                                        </div>
-                                    
-                                        <div class="col-md-3 mt-5">
-                                            <!-- <form method="POST"> -->
-                                                <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
-                                            <!-- </form> -->
-                                        </div>
+                                    <div class="row">                                       
+                                        <form class="form" method="POST" autocomplete="off">                                            
+                                            <div class="input-field">
+                                                <label class="label">First Name</label><br>
+                                                <input type="firstName" name="fName" placeholder="Enter your first name" value="<?php echo $_SESSION['fName']; ?>"required> <br>                                              
+                                            
+                                                <label class="label">Last Name</label><br>
+                                                <input type="lastName" name="lName" placeholder="Enter your last name" value="<?php echo $_SESSION['lName']; ?>"required> <br>                                                
 
-                                        <div class="col-md-3 mt-5">
-                                            <!-- <form method="POST"> -->
-                                                <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
-                                                <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>                                            </form>
-                                        </div>            
-                                    </div>
-                                        
+                                                <label class="label">Phone Number</label><br>
+                                                <input type="firstName" name="phone" placeholder="Enter your phone number" value="<?php echo $_SESSION['phone']; ?>"required> <br>                                                                                            
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" name="change">Accept Changes</button>
+                                            </div>                                             
+                                        </form>            
+                                    </div>                                        
                                 </div>
-                                <div class="modal-footer">
-                                    <form method="post">
-                                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" name="acceptchanges">Accept Changes</button>
-                                    </form>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -170,21 +170,23 @@
 
                 <tbody>         
                     <?php 
+                        //Get all of the bookings of the user that are pending
                         $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
-                           FROM bookings a
-                           INNER JOIN rooms b 
-                           ON a.roomNumber = b.roomNumber
-                           WHERE a.memberID = ?
-                           AND a.status = 'pending'
-                           ORDER BY a.bookingDate DESC");
-                            $sql->bind_param("i", $memberID);
-                            $sql->execute();
-                            $result = $sql->get_result();  
+                                               FROM bookings a
+                                               INNER JOIN rooms b 
+                                               ON a.roomNumber = b.roomNumber
+                                               WHERE a.memberID = ?
+                                               AND a.status = 'pending'
+                                               ORDER BY a.bookingDate DESC");
+                        $sql->bind_param("i", $memberID);
+                        $sql->execute();
+                        $result = $sql->get_result();  
                     
                         if ($result->num_rows > 0) { //If there are bookings                           
                             while ($row = $result->fetch_assoc()) {
                     ?>                                                           
                     <tr>
+                        <!--display booking-->
                         <td><?php echo $row['bookingID']; ?></td>
                         <td><?php echo $row['roomNumber']; ?></td>
                         <td><?php echo $row['roomType']; ?></td>
@@ -194,6 +196,7 @@
                         <td><?php echo $row['status']; ?></td>
                         <td>
                             <form method="POST"> 
+                                <!--hidden inputs to pass data to the server-->
                                 <input type="hidden" name="bookingID" value="<?php echo $row['bookingID']; ?>">   
                                 <input type="hidden" name="checkInDate" value="<?php echo $row['checkInDate']; ?>"> 
                                 <input type="hidden" name="checkOutDate" value="<?php echo $row['checkOutDate']; ?>">                                                                               
@@ -228,6 +231,7 @@
 
                 <tbody>         
                     <?php 
+                    
                         $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
                            FROM bookings a
                            INNER JOIN rooms b 

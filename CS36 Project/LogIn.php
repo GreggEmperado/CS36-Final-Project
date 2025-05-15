@@ -67,7 +67,7 @@
 
     <body>
         <header class="header-login">
-            <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo-login">
+            <a href="HomePage.Php"><img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo-login" ></a>
         </header>
 
         <div class="form-log-in">
