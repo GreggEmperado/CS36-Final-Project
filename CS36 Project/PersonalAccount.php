@@ -5,8 +5,11 @@
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);    
 
-    //Cant access this page if not logged in
-    if (!isset($_SESSION['memberID'])){
+    //Get the ID of the logged in user
+    if (isset($_SESSION['memberID'])) 
+        $memberID = $_SESSION['memberID'];    
+    else {
+    // Redirect to login page or handle the error
         header("Location: LogIn.php");
         exit();
     }
@@ -32,9 +35,7 @@
             $sql2->execute();
             $current = strtotime("+1 day", $current);
         }
-    }
-
-    $memberID = $_SESSION['memberID'];     
+    }     
 ?>
     
 <!DOCTYPE html>
@@ -90,21 +91,22 @@
             </div>            
         </div>
 
-        <!-- Pending Booking-->
-        <?php
-            $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
-            $sql->bind_param("i", $memberID);
-            $sql->execute();
-            $result = $sql->get_result();
-
-            //Check if there are any pending bookings
-            $isPending = false;
-            if ($result->num_rows > 0)
-                $isPending = true;            
-            else 
-                $isPending = false;               
-        ?>       
+        <!-- Pending Booking-->            
         <div style="display: <?php echo $isPending ? 'block' : 'none'; ?>;"> <!--Will only show if there are pending bookings-->
+            <?php
+                //Check if there are any pending bookings
+                $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
+                $sql->bind_param("i", $memberID);
+                $sql->execute();
+                $result = $sql->get_result();
+            
+                $isPending = false;
+                if ($result->num_rows > 0)
+                    $isPending = true;            
+                else 
+                    $isPending = false;               
+            ?>  
+
             <h1>Pending Bookings</h1>
             <hr>
             <table class="table custom-table">    
@@ -123,21 +125,23 @@
 
                 <tbody>         
                     <?php 
+                        //Get all of the bookings of the user that are pending
                         $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
-                           FROM bookings a
-                           INNER JOIN rooms b 
-                           ON a.roomNumber = b.roomNumber
-                           WHERE a.memberID = ?
-                           AND a.status = 'pending'
-                           ORDER BY a.bookingDate DESC");
-                            $sql->bind_param("i", $memberID);
-                            $sql->execute();
-                            $result = $sql->get_result();  
+                                               FROM bookings a
+                                               INNER JOIN rooms b 
+                                               ON a.roomNumber = b.roomNumber
+                                               WHERE a.memberID = ?
+                                               AND a.status = 'pending'
+                                               ORDER BY a.bookingDate DESC");
+                        $sql->bind_param("i", $memberID);
+                        $sql->execute();
+                        $result = $sql->get_result();  
                     
                         if ($result->num_rows > 0) { //If there are bookings                           
                             while ($row = $result->fetch_assoc()) {
                     ?>                                                           
                     <tr>
+                        <!--display booking-->
                         <td><?php echo $row['bookingID']; ?></td>
                         <td><?php echo $row['roomNumber']; ?></td>
                         <td><?php echo $row['roomType']; ?></td>
@@ -147,6 +151,7 @@
                         <td><?php echo $row['status']; ?></td>
                         <td>
                             <form method="POST"> 
+                                <!--hidden inputs to pass data to the server-->
                                 <input type="hidden" name="bookingID" value="<?php echo $row['bookingID']; ?>">   
                                 <input type="hidden" name="checkInDate" value="<?php echo $row['checkInDate']; ?>"> 
                                 <input type="hidden" name="checkOutDate" value="<?php echo $row['checkOutDate']; ?>">                                                                               
@@ -181,6 +186,7 @@
 
                 <tbody>         
                     <?php 
+                    
                         $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
                            FROM bookings a
                            INNER JOIN rooms b 
