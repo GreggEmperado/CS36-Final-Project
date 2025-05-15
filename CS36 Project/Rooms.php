@@ -57,7 +57,7 @@
             </div>
 
             <div class="text-holder">
-                <h1>RKG Hotel</h1>
+                <h1 class="popup-h1">RKG Hotel</h1>
                 <p>Contact us at rkg@gmail.com<br>
                     Experience the wonders of our rooms</p>
             </div>
