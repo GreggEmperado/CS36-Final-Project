@@ -25,16 +25,30 @@
     $sql->bind_param("sssi", $fName, $lName, $Contact, $memberID);
     $sql->execute();
     }
+    //Cancellation of booking
+    if (isset($_POST['cancel'])){ 
 
-    $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
-                           FROM bookings a
-                           INNER JOIN rooms b 
-                           ON a.roomNumber = b.roomNumber
-                           WHERE a.memberID = ?
-                           ORDER BY a.bookingDate DESC");
-    $sql->bind_param("i", $memberID);
-    $sql->execute();
-    $result = $sql->get_result();    
+        //Set booking status to cancel
+        $bookingID = $_POST['bookingID'];
+        $sql = $conn->prepare("UPDATE bookings SET status = 'cancelled' WHERE bookingID = ?");
+        $sql->bind_param("i", $bookingID);
+        $sql->execute();
+        
+        //Remove values in room availability for the cancelled dates 
+        $checkInDate = $_POST['checkInDate'];
+        $checkOutDate = $_POST['checkOutDate'];      
+        $current = strtotime($checkInDate);
+        $end = strtotime($checkOutDate);
+        while ($current < $end) {
+            $date = date('Y-m-d', $current);
+            $sql2 = $conn->prepare("DELETE FROM roomAvailability WHERE roomNumber = ? AND date = ?");
+            $sql2->bind_param("ss", $roomNumber, $date);
+            $sql2->execute();
+            $current = strtotime("+1 day", $current);
+        }
+    }
+
+    $memberID = $_SESSION['memberID'];     
 ?>
     
 <!DOCTYPE html>
@@ -70,6 +84,17 @@
     <div class="container mt-5">
         <!-- Account Editing -->
         
+        <div class="row">
+            <div class="col-md-6">
+            <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
+            </div>
+           
+            <div class="col-md-3 mt-5">
+                <form method="POST">l
+                    <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
+                    <h4>Email</h4><p><input type="text" name="Email" value="<?php echo $_SESSION['email']; ?>"></p><br>
+                </form>
+            </div>
 
             <div class="row">
                 <div class="col-md-6">
@@ -127,6 +152,22 @@
             </div>
         <div>
             <h1>Booking History</h1>
+        <!-- Pending Booking-->
+        <?php
+            $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
+            $sql->bind_param("i", $memberID);
+            $sql->execute();
+            $result = $sql->get_result();
+
+            //Check if there are any pending bookings
+            $isPending = false;
+            if ($result->num_rows > 0)
+                $isPending = true;            
+            else 
+                $isPending = false;               
+        ?>       
+        <div style="display: <?php echo $isPending ? 'block' : 'none'; ?>;"> <!--Will only show if there are pending bookings-->
+            <h1>Pending Bookings</h1>
             <hr>
             <table class="table custom-table">    
                 <thead>        
@@ -140,31 +181,95 @@
                         <th>Status</th>
                         <th>Action</th>
                     </tr>    
-                </thead>    
+                </thead>   
 
                 <tbody>         
-                    <?php            
+                    <?php 
+                        $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
+                           FROM bookings a
+                           INNER JOIN rooms b 
+                           ON a.roomNumber = b.roomNumber
+                           WHERE a.memberID = ?
+                           AND a.status = 'pending'
+                           ORDER BY a.bookingDate DESC");
+                            $sql->bind_param("i", $memberID);
+                            $sql->execute();
+                            $result = $sql->get_result();  
+                    
                         if ($result->num_rows > 0) { //If there are bookings                           
                             while ($row = $result->fetch_assoc()) {
                     ?>                                                           
-                            <tr>
-                                <td><?php echo $row['bookingID']; ?></td>
-                                <td><?php echo $row['roomNumber']; ?></td>
-                                <td><?php echo $row['roomType']; ?></td>
-                                <td><?php echo $row['bookingDate']; ?></td>
-                                <td><?php echo $row['checkInDate']; ?></td>
-                                <td><?php echo $row['checkOutDate']; ?></td>
-                                <td><?php echo $row['status']; ?></td>
-                                <td>
-                                    <form method="POST" action="">                                                                                  
-                                        <button type="submit" name="edit" class="btn btn-primary">Change</button>
-                                        <button type="submit" name="delete" class="btn btn-danger">Cancel</button>
-                                    </form>
-                                </td>
-                            </tr> 
-                            <?php  } }else {
-                                        echo "<tr><td colspan='8'>No bookings found</td></tr>";
-                                        } ?>                         
+                    <tr>
+                        <td><?php echo $row['bookingID']; ?></td>
+                        <td><?php echo $row['roomNumber']; ?></td>
+                        <td><?php echo $row['roomType']; ?></td>
+                        <td><?php echo $row['bookingDate']; ?></td>
+                        <td><?php echo $row['checkInDate']; ?></td>
+                        <td><?php echo $row['checkOutDate']; ?></td>
+                        <td><?php echo $row['status']; ?></td>
+                        <td>
+                            <form method="POST"> 
+                                <input type="hidden" name="bookingID" value="<?php echo $row['bookingID']; ?>">   
+                                <input type="hidden" name="checkInDate" value="<?php echo $row['checkInDate']; ?>"> 
+                                <input type="hidden" name="checkOutDate" value="<?php echo $row['checkOutDate']; ?>">                                                                               
+                                <button type="submit" name="edit" class="btn btn-primary">Change</button>
+                                <button type="submit" name="cancel" class="btn btn-danger">Cancel</button>
+                            </form>
+                        </td>
+                    </tr> 
+                    <?php  } 
+                        }else {
+                            echo "<tr><td colspan='8'>No bookings found</td></tr>";
+                        } ?>                         
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <h1>Booking History</h1>
+            <hr>
+            <table class="table custom-table">    
+                <thead>        
+                    <tr>
+                        <th>BookingID</th>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
+                        <th>Booked on</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Status</th>                        
+                    </tr>    
+                </thead>    
+
+                <tbody>         
+                    <?php 
+                        $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
+                           FROM bookings a
+                           INNER JOIN rooms b 
+                           ON a.roomNumber = b.roomNumber
+                           WHERE a.memberID = ?
+                           ORDER BY a.bookingDate DESC");
+                            $sql->bind_param("i", $memberID);
+                            $sql->execute();
+                            $result = $sql->get_result();                        
+
+                        if ($result->num_rows > 0) { //If there are bookings                           
+                            while ($row = $result->fetch_assoc()) {
+                    ?>                                                           
+                    <tr>
+                        <td><?php echo $row['bookingID']; ?></td>
+                        <td><?php echo $row['roomNumber']; ?></td>
+                        <td><?php echo $row['roomType']; ?></td>
+                        <td><?php echo $row['bookingDate']; ?></td>
+                        <td><?php echo $row['checkInDate']; ?></td>
+                        <td><?php echo $row['checkOutDate']; ?></td>
+                        <td><?php echo $row['status']; ?></td>                        
+                    </tr> 
+                    <?php  
+                    } 
+                        }else {
+                            echo "<tr><td colspan='8'>No bookings found</td></tr>";
+                        } ?>                         
                 </tbody>
             </table>
         </div>
