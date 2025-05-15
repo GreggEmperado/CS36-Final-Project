@@ -18,9 +18,7 @@
    
     <body>
         <header>
-            <a href="HomePage.php" class="logo">
-                <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo">
-            </a>
+            <a href="HomePage.Php"><img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" ></a>
 
             <div class="navBar">
                 <ul>
@@ -66,6 +64,13 @@
 
             <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
             <a class="next" onclick="changeSlide(1)">&#10095;</a>
+
+            <div class="slide-indicators">
+                <span class="dot" data-slide="0"></span>
+                <span class="dot" data-slide="1"></span>
+                <span class="dot" data-slide="2"></span>
+                <span class="dot" data-slide="3"></span>
+            </div>
         </div>  
         
         <script src="js\slideshow.js"></script>

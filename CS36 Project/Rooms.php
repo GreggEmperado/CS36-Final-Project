@@ -18,7 +18,7 @@
    
     <body>
         <header>
-            <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" href="HomePage.Php">
+            <a href="HomePage.Php"><img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" ></a>
 
             <div class="navBar">
                 <ul>
@@ -60,6 +60,13 @@
                 <h1>RKG Hotel</h1>
                 <p>Contact us at rkg@gmail.com<br>
                     Experience the wonders of our rooms</p>
+            </div>
+
+            <div class="slide-indicators">
+                <span class="dot" data-slide="0"></span>
+                <span class="dot" data-slide="1"></span>
+                <span class="dot" data-slide="2"></span>
+                <span class="dot" data-slide="3"></span>
             </div>
 
             <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
@@ -203,6 +210,7 @@
         <div class = "popup-box">
             <div class = "popup-content">
                 <div class = "popup-header">
+                    <span class="close-x" style="float:right; font-size: 1.5em; cursor:pointer;">&times;</span>
                 </div>
                 <div class = "popup-body">
                 </div>

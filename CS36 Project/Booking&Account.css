@@ -1,3 +1,13 @@
+/*
+Hover color: #5941A9
+selected color: #6D72C3
+button color: #1D1128
+description: #E5D4ED
+section: #323139
+border-radius: 8px;
+*/
+
+
 body{
     background-color: #514f59;
     /* font-family: Inter; */
@@ -7,8 +17,74 @@ body{
     flex-direction: column;
 }
 
+button{
+    background-color: #1D1128;
+    color: white;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+button:hover{
+    background-color: #5941A9;
+    color: white;
+    cursor: pointer;
+}
+
+.fc-today-button{
+    background-color: #1D1128 !important; 
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+}
+
+.fc-prev-button:hover{
+    background-color : #5941A9 !important;
+}
+
+.fc-prev-button{
+    background-color: #1D1128 !important; 
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+}
+
+.fc-next-button:hover{
+    background-color : #5941A9 !important;
+}
+
+.fc-next-button{
+    background-color: #1D1128 !important; 
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+}
+
+.fc-daygrid-day-top{
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.fc-highlight {
+  /* when user is selecting cells */
+  background: #6D72C3 !important;
+  opacity: .3; }
+
+
+
 .container{
     background-color: #d9d9d9;
+}
+
+a{
+    width: 15%;
+}
+
+.logo{
+    display: block;
+    width: 100%;
 }
 
 .profileimg{
@@ -35,12 +111,6 @@ footer{
     margin-bottom: 0 auto;
     background-color: #FFFFFF;
     justify-content: center;
-}
-.logo{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 15%;
 }
 
 .account {
@@ -104,7 +174,7 @@ footer h1{
 
 .custom-table th, tr, td{/*class for tables*/
     text-align: center;
-    border: 2px solid #563517;
+    border: none;
     /* table-layout: auto; */
 }
 
