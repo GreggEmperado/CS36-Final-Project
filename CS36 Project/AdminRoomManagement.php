@@ -145,7 +145,7 @@
                             <tr>
                                 <td><?php echo $row['roomNumber']; ?></td>
                                 <td><?php echo $row['roomType']; ?></td>
-                                <td><?php echo $row['capacity']; ?></td>
+                                <td><?php echo $row['roomCapacity']; ?></td>
                                 <td><?php echo $row['isAvailable']; ?></td>
                                 <td>
                                     <form method="POST" action="">                                                                                  
