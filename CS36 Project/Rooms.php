@@ -1,4 +1,4 @@
-<?php
+<d?php
     session_start();  
     $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
     $conn = new mysqli($servername, $username, $password, $database);   
@@ -113,6 +113,8 @@
                         <li>Complimentary Breakfast</li>
                     </ul>
                 </div>
+
+
                 <button class ="readMore">Read More</button>
             </div>
 
@@ -211,6 +213,8 @@
             <div class = "popup-content">
                 <div class = "popup-header">
                     <span class="close-x" style="float:right; font-size: 1.5em; cursor:pointer;">&times;</span>
+                </div>
+                <div class="popup-title">
                 </div>
                 <div class = "popup-body">
                 </div>
