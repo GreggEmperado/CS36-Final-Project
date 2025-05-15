@@ -7,7 +7,6 @@
 
     $roomNumber = $roomType = $roomCapacity = $availability = $error = "";
     
-
     //Change availability
     if (isset($_POST['change'])){
         $roomNumber = $_POST['roomNumber'];
