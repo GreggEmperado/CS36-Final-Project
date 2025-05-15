@@ -13,6 +13,15 @@
         $checkOutDate = $_POST['checkOutDate'];
         $bookingDate = $_POST['bookingDate'];
         $status = $_POST['status'];
+
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete'])){
+        $bookingID = $_POST['bookingID'];       
+        // Delete the booking
+        $sqlDelete = conn->prepare("DELETE FROM bookings WHERE bookingID = ?");
+        $sqlDelete->bind_param("i", $bookingID);
+        $sqlDelete->execute();       
     }
     
 ?>
@@ -122,11 +131,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php                            
-                            $today = date('Y-m-d');
+                        <?php                           
                             $sql = "SELECT bookingID, memberID, roomNumber, checkInDate, checkOutDate, bookingDate, status
-                                    FROM bookings
-                                    WHERE bookingDate = '$today'";
+                                    FROM bookings";
                             $result = $conn->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -156,7 +163,7 @@
                         <?php
                                  }
                             } else {
-                                echo "<tr><td colspan='8'>No rooms found</td></tr>";
+                                echo "<tr><td colspan='8'>There are no bookings currently.</td></tr>";
                             }
                         ?>
                     </tbody>
