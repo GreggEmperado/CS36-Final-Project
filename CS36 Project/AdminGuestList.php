@@ -51,10 +51,10 @@
                                                 die("Connection failed: " . $conn->connect_error);
                                             }
 
-                                            $sql = "SELECT g.member_id, g.first_name, g.last_name, COUNT(b.booking_id) AS total_bookings
-                                                    FROM guests g
-                                                    LEFT JOIN bookings b ON g.member_id = b.member_id
-                                                    GROUP BY g.member_id, g.first_name, g.last_name";
+                                            $sql = "SELECT a.memberID, a.first_name, a.last_name, COUNT(b.booking_id) AS total_bookings
+                                                    FROM guests a
+                                                    LEFT JOIN bookings b ON a.member_id = b.member_id
+                                                    GROUP BY a.member_id, a.first_name, a.last_name";
                                             $result = $conn->query($sql);
 
                                             if ($result->num_rows > 0) {
