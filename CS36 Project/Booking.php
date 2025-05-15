@@ -144,7 +144,7 @@
     </head>
     <body>
         <header>
-                <a href="HomePage.Php"><img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" ></a>
+                <a href="HomePage.Php" class="a-logo"><img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" ></a>
 
                 
                 <div class="navBar">
