@@ -161,6 +161,7 @@
             </div>
         </header>
     
+    
     <div class="container">
         <div class="container mt-5">
             <div class="row pt-5">
@@ -249,7 +250,7 @@
                             </div>
 
                             <br>
-                            <div class="container room-select">
+                            <div class="container-room-select">
                                 <h3>Rooms Selected</h3>
                                 <div id="selected-rooms">
                                     <!-- Room selections will be added here dynamically -->

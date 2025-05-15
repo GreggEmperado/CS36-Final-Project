@@ -197,6 +197,61 @@
 
         </div>
 
+        <div class="owner-section">
+            <div class ="owner-group">
+                <div class="owner-header">
+                    <h1>Meet the Owners</h1>
+                    <p>Our owners are dedicated to providing exceptional service and creating memorable experiences for our guests.</p>
+                </div>
+
+                <div class="owner-body">
+                    <div class="owner-card">
+                    <img src="resources/Owner1.jpg" alt="Owner 1" class="owner-img">
+                    <h3>Rafael Maghinay</h3>
+                    <p>A visionary leader with a passion for hospitality and a commitment to excellence.</p>
+                    </div>
+
+                    <div class="owner-card">
+                        <img src="resources/owner2.gif" alt="Owner 2" class="owner-img">
+                        <h3>Engr. Karl Gaitera</h3>
+                        <p>Brings years of experience in the industry and a dedication to providing exceptional service.</p>
+                    </div>
+
+                    <div class="owner-card">
+                        <img src="resources/owner3.jpg" alt="Owner 3" class="owner-img">
+                        <h3>Gregg Emperado</h3>
+                        <p>A passionate about creating memorable experiences for guests and ensuring their satisfaction.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class ="sponsors-section">
+            <div class="sponsors-group">
+                <div class="sponsors-header">
+                    <h1>Our Partners</h1>
+                    <p>We are proud to partner with these amazing sponsors who share our commitment to excellence.</p>
+                </div>
+
+                <div class="sponsors-body">
+                    <div class="sponsor-card">
+                        <img src="resources/drbanana.png" alt="Sponsor 1" class="sponsor-img">
+                        <h3>Dr.Banana</h3>
+                    </div>
+
+                    <div class="sponsor-card">
+                        <img src="resources/greggs.png" alt="Sponsor 2" class="sponsor-img">
+                        <h3>Gregg's</h3>
+                    </div>
+
+                    <div class="sponsor-card">
+                        <img src="resources/andoks.png" alt="Sponsor 3" class="sponsor-img">
+                        <h3>Andok's</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
         <footer>
             <h1>RKG Hotel</h1>
             <p>Dumaguete City, Negros Oriental 6200, Philippines</p>
