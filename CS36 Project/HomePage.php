@@ -225,6 +225,32 @@
                 </div>
             </div>
         </div>
+
+        <div class ="sponsors-section">
+            <div class="sponsors-group">
+                <div class="sponsors-header">
+                    <h1>Our Partners</h1>
+                    <p>We are proud to partner with these amazing sponsors who share our commitment to excellence.</p>
+                </div>
+
+                <div class="sponsors-body">
+                    <div class="sponsor-card">
+                        <img src="resources/drbanana.png" alt="Sponsor 1" class="sponsor-img">
+                        <h3>Dr.Banana</h3>
+                    </div>
+
+                    <div class="sponsor-card">
+                        <img src="resources/greggs.png" alt="Sponsor 2" class="sponsor-img">
+                        <h3>Gregg's</h3>
+                    </div>
+
+                    <div class="sponsor-card">
+                        <img src="resources/andoks.png" alt="Sponsor 3" class="sponsor-img">
+                        <h3>Andok's</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
             
         <footer>
             <h1>RKG Hotel</h1>
