@@ -291,3 +291,9 @@ input[type="text"]{
 h2{
     font-family: Baskerville;
 }
+
+
+.row pt-5{
+    display: flex;
+    flex-direction: column;
+}
