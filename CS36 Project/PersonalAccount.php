@@ -14,6 +14,20 @@
         exit();
     }
 
+    $memberID = $_SESSION['memberID'];
+    if (isset($_POST["acceptchanges"])){
+        $fName = $_SESSION['fName'];
+        $lName = $_SESSION["lName"];
+        $Email = $_SESSION["email"];
+        $Contact = $_SESSION["phone"];
+        $sql = $conn->prepare(query:"UPDATE members SET 
+                                firstName = ?, 
+                                lastName = ?, 
+                                phoneNumber =? 
+                                WHERE memberID = ?");
+    $sql->bind_param("sssi", $fName, $lName, $Contact, $memberID);
+    $sql->execute();
+    }
     //Cancellation of booking
     if (isset($_POST['cancel'])){ 
 
@@ -69,44 +83,76 @@
     </header>
 
     <div class="container mt-5">
-        <!-- Account Editing -->
-        <div class="row">
-            <div class="col-md-6">
-            <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
-            </div>
-           
-            <div class="col-md-3 mt-5">
-                <form method="POST">l
-                    <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
-                    <h4>Email</h4><p><input type="text" name="Email" value="<?php echo $_SESSION['email']; ?>"></p><br>
-                </form>
-            </div>
-
-            <div class="col-md-3 mt-5">
-                <form method="POST">
-                    <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
-                    <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>
-                    <button type="submit" name="edit details">Edit Details</button>
-                </form>
-            </div>            
-        </div>
-
-        <!-- Pending Booking-->            
-        <div style="display: <?php echo $isPending ? 'block' : 'none'; ?>;"> <!--Will only show if there are pending bookings-->
-            <?php
-                //Check if there are any pending bookings
-                $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
-                $sql->bind_param("i", $memberID);
-                $sql->execute();
-                $result = $sql->get_result();
+            <div class="row">
+                <div class="col-md-6">
+                <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
+                </div>
             
-                $isPending = false;
-                if ($result->num_rows > 0)
-                    $isPending = true;            
-                else 
-                    $isPending = false;               
-            ?>  
+                <div class="col-md-3 mt-5">
+                    <h4>First Name</h4><p><?php echo $_SESSION['fName']; ?></p><br>
+                    <h4>Email</h4><p><?php echo $_SESSION['email']; ?></p><br>
+                </div>
 
+                <div class="col-md-3 mt-5">
+                    <h4>Last Name</h4> <p><?php echo $_SESSION['lName']; ?></p><br>
+                    <h4>Contact No.</h4> <p><?php echo $_SESSION['phone']; ?></p><br>
+                    <!-- <form method="post"> -->
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#EditProfile">Edit Profile</button>
+                    <!-- </form> -->
+
+                    <div class="modal fade" id="EditProfile" tabindex="-1" aria-labelledby="dailyBookingsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="dailyBookingsModalLabel">Edit Profile</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
+                                        </div>
+                                    
+                                        <div class="col-md-3 mt-5">
+                                            <!-- <form method="POST"> -->
+                                                <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
+                                            <!-- </form> -->
+                                        </div>
+
+                                        <div class="col-md-3 mt-5">
+                                            <!-- <form method="POST"> -->
+                                                <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
+                                                <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>                                            </form>
+                                        </div>            
+                                    </div>
+                                        
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post">
+                                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" name="acceptchanges">Accept Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div>
+        <!-- Pending Booking-->
+        <?php
+            $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
+            $sql->bind_param("i", $memberID);
+            $sql->execute();
+            $result = $sql->get_result();
+
+            //Check if there are any pending bookings
+            $isPending = false;
+            if ($result->num_rows > 0)
+                $isPending = true;            
+            else 
+                $isPending = false;               
+        ?>       
+        <div style="display: <?php echo $isPending ? 'block' : 'none'; ?>;"> <!--Will only show if there are pending bookings-->
             <h1>Pending Bookings</h1>
             <hr>
             <table class="table custom-table">    
@@ -217,6 +263,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 
     <footer>
