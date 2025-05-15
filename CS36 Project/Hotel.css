@@ -5,7 +5,9 @@ button color: #1D1128
 description: #E5D4ED
 section: #323139
 border-radius: 8px;
-background:
+background2 : #514F59
+background1:  #323139
+ background3: #f4f5f6
 */
 
 body{
@@ -13,10 +15,14 @@ body{
     padding: 0;
     width:100%;
     overflow-x: hidden;
-    background-color: #514F59;
+    background-color:  #323139;
 }
 
 h1{
+    font-family: baskerville;
+}
+
+h4{
     font-family: baskerville;
 }
 
@@ -43,6 +49,7 @@ footer{
     margin-bottom: 0 auto;
     background-color: #FFFFFF;
     justify-content: center;
+    width: 100%;
 }
 
 a{
@@ -146,7 +153,6 @@ a{
     margin: auto;
     padding: 0;
     overflow: hidden;
-    margin-bottom:  5%;
 }
 
 .container .wrapper {
@@ -254,6 +260,20 @@ a{
     z-index: 3;
 }
 
+
+.book-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1D1128;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none; 
+    width: max-content;
+}
+
 button{
     background-color: #1D1128;
     color: white;
@@ -273,10 +293,6 @@ button:focus{
     color: white;
 }
 
-.readMore{
-    margin-right: 0;
-    margin-left: auto;
-}
 
 .form-log-in{
     display: flex;
@@ -340,7 +356,7 @@ a:hover{
     flex-wrap: wrap; /* Allow wrapping to the next line */
     justify-content: space-around; 
     align-items: center;
-    margin: 0;
+    margin-top: 5%;
     padding: 20px; 
     width: 100%;
     background-color: #323139;
@@ -357,6 +373,13 @@ a:hover{
     background-color: #E5D4ED;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+    min-height: 350px;      
+    height: 100%;           /* Allow flex parent to control height */
+    box-sizing: border-box;
+}
+
+.rooms-container {
+    align-items: stretch;
 }
 
 .room-image{
@@ -371,8 +394,36 @@ a:hover{
     visibility: hidden;
 }
 
+.readMore{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+    border-radius: 0%;
+    color: black;
+    padding: 10px;
+    border: 1px solid #1D1128;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 0;
+    margin-right: auto;
+}
+
 .read-more-content {
     display: none; /* Hide the content by default */
+}
+
+.slide-btn{
+    display: flex;
+    justify-content: center;
+    min-width: max-content;
+    align-items: center;
+    background-color: #1D1128;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none; 
 }
 
 .popup-box {
@@ -423,7 +474,7 @@ a:hover{
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    padding: 10px;
+    padding: 25px;
 }
 
 .error{
@@ -482,4 +533,157 @@ a:hover{
     height: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+}
+
+.restaurant-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 50px; 
+    width: 100%;
+    background-color: #323139;
+}
+
+.card-group{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    justify-content: space-around; 
+    align-items: center;
+    margin: 0;
+    padding: 50px; 
+    width: 100%;
+    color: white;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.card-text{
+    width: 48%;
+    padding: 40px;
+}
+
+
+.card-img-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 48%;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+}
+
+.card-button{
+    background-color: inherit;
+    border: 1px solid white;
+    border-radius:0%;
+    color: white;
+}
+
+
+/* events-section */
+
+.events-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    background-color: #f4f5f6;
+}
+
+.events-card-group{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    justify-content: space-around; 
+    align-items: center;
+    margin: 0;
+    padding: 50px; 
+    width: 100%;
+    color: black;
+}
+
+.events-card-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.events-card-text{
+    width: 48%;
+    padding: 40px;
+}
+
+
+.events-card-img-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+}
+
+.events-card-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.events-card-img-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch; /* Make children the same height */
+    width: 48%;
+    box-shadow: none;
+    gap: 3%; /* Space between the two containers */
+}
+
+.event-img1-container,
+.event-img2-container {
+    display: flex;
+    align-items: stretch;
+    height: 350px; /* Set a fixed height, adjust as needed */
+    min-height: 180px;
+    max-height: 40vw;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.event-img1-container {
+    width: 60%;
+}
+
+.event-img2-container {
+    width: 48%;
+}
+
+.event-img1-container img,
+.event-img2-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }

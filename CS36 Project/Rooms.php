@@ -220,7 +220,7 @@
                 </div>
                 <div class = "popup-footer">
                     <button class = "close-btn">Close</button>
-                    <button class = "booknow" href="Booking.php">Book Now</button>
+                    <a href="Booking.php"><button class = "book-btn">Book Now</button></a>
                 </div>
             </div>
         </div>
