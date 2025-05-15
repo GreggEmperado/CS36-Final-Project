@@ -4,6 +4,11 @@
     $conn = new mysqli($servername, $username, $password, $database);   
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);
+
+    /*if (isset($_POST['edit'])){
+        $sql = $conn->prepare("UPDATE rooms SET isAvailable = ? WHERE memberID = ?");
+        $sql->bind_param("si", )
+    }*/
 ?>
 <html>
     <head>
@@ -63,6 +68,33 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             <button type="submit" name="create" class="btn btn-success" style="background-color:#1D1128; border: 1px solid #1D1128">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Room Modal-->
+                    <div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="editRoomModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editRoomModalLabel">Create New Room</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="AdminRoomManagement.php">                                        
+                                        <div class="mb-3">
+                                            <label for="availability" class="form-label">Availability</label>
+                                            <select name="availability" id="availability" class="form-control" required>
+                                                <option value="1">Available</option>
+                                                <option value="0">Unavailable</option>
+                                            </select>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" name="edit" class="btn btn-success" style="background-color:#1D1128; border: 1px solid #1D1128">Submit</button>
                                         </div>
                                     </form>
                                 </div>
@@ -149,8 +181,8 @@
                                 <td><?php echo $row['isAvailable']; ?></td>
                                 <td>
                                     <form method="POST" action="">                                                                                  
-                                        <button type="submit" name="edit" class="btn btn-primary">Edit</button>
-                                        <button type="submit" name="delete" class="btn btn-danger">Cancel</button>
+                                        <button type="button" name="edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editRoomModal">Edit</button>
+                                        <button type="button" name="delete" class="btn btn-danger">wa pak o</button>
                                     </form>
                                 </td>                                
                             </tr>
