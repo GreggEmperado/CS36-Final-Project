@@ -85,7 +85,7 @@
                         <h4>Gregg's</h4>
                         <p>Our restaurant offers a wide variety of local and international cuisine, prepared by our talented chefs. Enjoy a delightful dining experience in a cozy and elegant atmosphere.</p>
 
-                        <button class="card-button">Explore Menu</button>
+                        <button class="card-button" onclick="document.getElementById('menu-section').scrollIntoView({ behavior: 'smooth' });">Explore Menu</button>
 
                     </div>
 
@@ -159,6 +159,41 @@
                     </div>
 
                 </div>
+
+        </div>
+
+        <div class="menu-section" id="menu-section">
+            <div class="menu-card-group">
+                <div class="menu-card-header">
+                    <h1>Gregg's</h1>
+                    <p>Explore our delicious menu options. Cooked with love by Chef Gregg.</p>
+                </div>
+                <div class="menu-card-body">
+
+                    <div class="menu-card-img-slider">
+                        <div class = "menu-wrapper-holder">
+                            <div class="menu-slide" id = "menu-img-1"></div>
+                            <div class="menu-slide" id = "menu-img-2"></div>
+                            <div class="menu-slide" id = "menu-img-3"></div>
+                            <div class="menu-slide" id = "menu-img-4"></div>
+                            <div class="menu-slide" id = "menu-img-5"></div>
+                            <div class="menu-slide" id = "menu-img-6"></div>
+                            <div class="menu-slide" id = "menu-img-7"></div>
+                            <div class="menu-slide" id = "menu-img-8"></div>
+                            <div class="menu-slide" id = "menu-img-9"></div>
+                            <div class="menu-slide" id = "menu-img-10"></div>
+                            <div class="menu-slide" id = "menu-img-11"></div>
+                            <div class="menu-slide" id = "menu-img-12"></div>
+                        </div>
+
+                        <button class="menu-prev">&#10094;</button>
+                        <button class="menu-next">&#10095;</button>
+                        
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
