@@ -13,10 +13,10 @@
 
     $memberID = $_SESSION['memberID'];
 
-    $sql = $conn->prepare("SELECT a.bookingID, b.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
+    $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
                            FROM bookings a
                            INNER JOIN rooms b 
-                           ON a.roomID = b.roomID
+                           ON a.roomNumber = b.roomNumber
                            WHERE a.memberID = ?
                            ORDER BY a.bookingDate DESC");
     $sql->bind_param("i", $memberID);
@@ -90,6 +90,7 @@
                         <th>Check In</th>
                         <th>Check Out</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>    
                 </thead>    
 
@@ -106,9 +107,15 @@
                                 <td><?php echo $row['checkInDate']; ?></td>
                                 <td><?php echo $row['checkOutDate']; ?></td>
                                 <td><?php echo $row['status']; ?></td>
+                                <td>
+                                    <form method="POST" action="">                                                                                  
+                                        <button type="submit" name="edit" class="btn btn-primary">Change</button>
+                                        <button type="submit" name="delete" class="btn btn-danger">Cancel</button>
+                                    </form>
+                                </td>
                             </tr> 
                             <?php  } }else {
-                                        echo "<tr><td colspan='7'>No bookings found</td></tr>";
+                                        echo "<tr><td colspan='8'>No bookings found</td></tr>";
                                         } ?>                         
                 </tbody>
             </table>

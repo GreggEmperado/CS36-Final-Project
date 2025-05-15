@@ -35,7 +35,7 @@
                     AND NOT EXISTS (
                         SELECT 1 
                         FROM roomAvailability ra 
-                        WHERE ra.roomID = rm.roomID 
+                        WHERE ra.roomNumber = rm.roomNumber 
                             AND ra.date BETWEEN ? AND ?
                     )
                 );";
@@ -80,19 +80,19 @@
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['confirm'])){
         $memberID = $_SESSION['memberID'];
         $roomType = $_POST['roomType'];
-        $roomID = "";
+        $roomNum = "";
         $checkInDate = $_SESSION['checkin'];
         $checkOutDate = $_SESSION['checkout'];
         $status = "pending";        
 
         //Search for available rooms based on the room type
-        $sql = "SELECT r.roomID
+        $sql = "SELECT r.roomNumber
                 FROM rooms r
                 WHERE r.roomType = ?  
                 AND NOT EXISTS (
                     SELECT 1
                     FROM roomAvailability ra
-                    WHERE ra.roomID = r.roomID
+                    WHERE ra.roomNumber = r.roomNumber
                     AND ra.date BETWEEN ? AND ?  
                 )
                 AND r.isAvailable = TRUE  
@@ -107,26 +107,26 @@
         //This just checks the available rooms
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $roomID = $row['roomID'];
+            $roomNum = $row['roomNumber'];
         }
 
-        $insertSql = "INSERT INTO bookings (memberID, roomID, checkInDate, checkOutDate, status)
+        $insertSql = "INSERT INTO bookings (memberID, roomNumber, checkInDate, checkOutDate, status)
                       VALUES (?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
-        $insertStmt->bind_param("sssss", $memberID, $roomID, $checkInDate, $checkOutDate, $status);
+        $insertStmt->bind_param("sssss", $memberID, $roomNum, $checkInDate, $checkOutDate, $status);
         $insertStmt->execute();
 
-        echo "Booking confirmed for room ID: $roomID";
+        echo "Booking confirmed for room ID: $roomNum";
 
         //Update room availability for each day in the booking period
         $currentDate = $checkInDate;
         while ($currentDate <= $checkOutDate) {
-            $availabilitySql = "INSERT INTO roomAvailability (roomID, date)
+            $availabilitySql = "INSERT INTO roomAvailability (roomNumber, date)
                                 VALUES (?, ?)
-                                ON DUPLICATE KEY UPDATE roomID = roomID
+                                ON DUPLICATE KEY UPDATE roomNumber = roomNumber
             ";
             $availabilityStmt = $conn->prepare($availabilitySql);
-            $availabilityStmt->bind_param("ss", $roomID, $currentDate);
+            $availabilityStmt->bind_param("ss", $roomNum, $currentDate);
             $availabilityStmt->execute();
 
             //Increment the day
