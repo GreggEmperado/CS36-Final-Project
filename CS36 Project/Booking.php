@@ -104,7 +104,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
 
-        //This just checks the available rooms
+        //Fetches the available rooms
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $roomNum = $row['roomNumber'];
@@ -114,17 +114,14 @@
                       VALUES (?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bind_param("sssss", $memberID, $roomNum, $checkInDate, $checkOutDate, $status);
-        $insertStmt->execute();
-
-        echo "Booking confirmed for room ID: $roomNum";
+        $insertStmt->execute();        
 
         //Update room availability for each day in the booking period
         $currentDate = $checkInDate;
         while ($currentDate <= $checkOutDate) {
             $availabilitySql = "INSERT INTO roomAvailability (roomNumber, date)
                                 VALUES (?, ?)
-                                ON DUPLICATE KEY UPDATE roomNumber = roomNumber
-            ";
+                                ON DUPLICATE KEY UPDATE roomNumber = roomNumber";
             $availabilityStmt = $conn->prepare($availabilitySql);
             $availabilityStmt->bind_param("ss", $roomNum, $currentDate);
             $availabilityStmt->execute();
@@ -143,6 +140,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/calendar.js"></script>
+    <script src="js/roomselect.js"></script>
     </head>
     <body>
         <header>
@@ -190,7 +188,7 @@
             </div>
             
             <div class="col-md-6 border-3">
-                <form method="POST">
+                <form method="POST" onsubmit="return handleConfirmBooking(event)">
                     <?php if ($roomslist): ?>
                     <h2>Rooms Available</h2>
                     <hr>
@@ -267,91 +265,33 @@
                     <div class="col-md-5">
                         <h4 id="cart">Your Cart: 0 Item(s)</h4>
                         <p id="total-price">Total: PHP0</p>
-                        <button type="submit" name="confirm" id="confirm" disabled>Confirm Booking</button>
+                        <button type="submit" name="confirm" id="confirm" data-bs-toggle="modal" data-bs-target="#bookingSuccessful" disabled>Confirm Booking</button>
+                        <div class="modal fade" id="bookingSuccessful" tabindex="-1" aria-labelledby="dailyBookingsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="dailyBookingsModalLabel">Successful Booking</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Your booking has been successfully confirmed!</p>
+                                        <p>Check your email for the booking details.</p>
+                                        <p>Thank you for choosing RKG Hotel!</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Book again</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" action="HomePage.php">Home</button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
 
+
+
                 </form>
-
-                <script>
-                        let roomCount = 0;
-                        let totalprice = 0;
-
-                        function RoomSelect(element) {//gets attributes from each room type
-
-                            //Disable all rooms after a selection
-                            const allRooms = document.querySelectorAll('[data-room]');
-                            allRooms.forEach(room => {
-                                room.onclick = null;  //Disable clicking
-                            });
-
-                            element.setAttribute("data-selected", "true");
-                            const imgSrc = element.getAttribute("data-img");
-                            const roomDesc = element.getAttribute("data-room");   
-                            const roomType = element.getAttribute("data-roomType");                       
-                            let price = Number(element.getAttribute("data-price"));
-
-                            roomCount++; //Increases room count on click
-                            totalprice += price;//adds price
-
-                            const container = document.getElementById("selected-rooms");
-
-                            const roomDiv = document.createElement("div");//creates a new div for the selected rooms section
-                            roomDiv.className = "row mb-3 align-items-center";
-                            roomDiv.id = `room-${roomCount}`;//each selected room has an id room-{1,2,3...}
-                            roomDiv.setAttribute("data-price", price); //sets price attribute for subtraction
-                            roomDiv.innerHTML = `
-                                <div class="col-md-3">
-                                <img src="${imgSrc}" class="img-fluid">
-                                </div>
-                                <div class="col-md-3">
-                                <p>${roomDesc}</p>
-                                </div>
-                                <div class="col-md-3">
-                                <p>PHP ${price}/per night</p>
-                                </div>
-                                <div class="col-md-3">
-                                <button class="btn btn-danger" onclick="removeRoom('room-${roomCount}')">Remove</button>
-                                </div>
-                                <input type="hidden" name="roomType" value="${roomType}">
-                            `;
-
-                            container.appendChild(roomDiv);
-                            document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;//Updates cart items & price
-                            document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;      
-                            
-                            //Enable the "Confirm" button if a room is selected
-                            if (roomCount > 0) {
-                                document.getElementById("confirm").disabled = false;  // Enable the button
-                            }
-                            
-                        }
-
-                        function removeRoom(roomId) {// removes the selected room when Remove button is clicked
-                            const roomDiv = document.getElementById(roomId);
-                            let price = Number(roomDiv.getAttribute("data-price"));// Decrease room count and price depending on removed room type
-                            roomCount--;
-
-                            if (roomDiv) {
-                                totalprice -= price;
-
-                                document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;
-                                document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;
-
-                                roomDiv.remove();
-                                
-                                //Re-enable all rooms by adding the onclick back
-                                const allRooms = document.querySelectorAll('[data-room]');
-                                allRooms.forEach(room => {
-                                    room.onclick = () => RoomSelect(room); //Add the click event back
-                                });
-
-                                // If no rooms are selected, disable the "Confirm" button again
-                                if (roomCount === 0) {
-                                    document.getElementById("confirm").disabled = true;  // Disable the button
-                                }
-                            }
-                        }
-                </script>
             </div>
         </div>
         <br>

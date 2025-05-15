@@ -40,7 +40,7 @@
             </div>
             <!-- Show this div if a user is not logged in, hide if logged in-->
             <div class="account dropdown" style="display: <?php echo (!isset($_SESSION['fName'])) ? "block" : "none"; ?>">
-                <a href="LogIn.php"><button class="btn btn-secondary dropdown-toggle" type="button">
+                <a href="LogIn.php"><button class="btn btn-secondary" type="button">
                     Log In
                 </button></a>              
             </div>

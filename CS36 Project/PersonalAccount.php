@@ -5,23 +5,51 @@
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);    
 
-    //Cant access this page if not logged in
-    if (!isset($_SESSION['memberID'])){
+    //Get the ID of the logged in user
+    if (isset($_SESSION['memberID'])) 
+        $memberID = $_SESSION['memberID'];    
+    else {
+    // Redirect to login page or handle the error
         header("Location: LogIn.php");
         exit();
     }
 
     $memberID = $_SESSION['memberID'];
-
-    $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
-                           FROM bookings a
-                           INNER JOIN rooms b 
-                           ON a.roomNumber = b.roomNumber
-                           WHERE a.memberID = ?
-                           ORDER BY a.bookingDate DESC");
-    $sql->bind_param("i", $memberID);
+    if (isset($_POST["acceptchanges"])){
+        $fName = $_SESSION['fName'];
+        $lName = $_SESSION["lName"];
+        $Email = $_SESSION["email"];
+        $Contact = $_SESSION["phone"];
+        $sql = $conn->prepare(query:"UPDATE members SET 
+                                firstName = ?, 
+                                lastName = ?, 
+                                phoneNumber =? 
+                                WHERE memberID = ?");
+    $sql->bind_param("sssi", $fName, $lName, $Contact, $memberID);
     $sql->execute();
-    $result = $sql->get_result();    
+    }
+    //Cancellation of booking
+    if (isset($_POST['cancel'])){ 
+
+        //Set booking status to cancel
+        $bookingID = $_POST['bookingID'];
+        $sql = $conn->prepare("UPDATE bookings SET status = 'cancelled' WHERE bookingID = ?");
+        $sql->bind_param("i", $bookingID);
+        $sql->execute();
+        
+        //Remove values in room availability for the cancelled dates 
+        $checkInDate = $_POST['checkInDate'];
+        $checkOutDate = $_POST['checkOutDate'];      
+        $current = strtotime($checkInDate);
+        $end = strtotime($checkOutDate);
+        while ($current < $end) {
+            $date = date('Y-m-d', $current);
+            $sql2 = $conn->prepare("DELETE FROM roomAvailability WHERE roomNumber = ? AND date = ?");
+            $sql2->bind_param("ss", $roomNumber, $date);
+            $sql2->execute();
+            $current = strtotime("+1 day", $current);
+        }
+    }     
 ?>
     
 <!DOCTYPE html>
@@ -55,26 +83,135 @@
     </header>
 
     <div class="container mt-5">
-        <!-- Account Editing -->
-        <div class="row">
-            <div class="col-md-6">
-            <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
-            </div>
-           
-            <div class="col-md-3 mt-5">
-                <form method="POST">
-                    <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
-                    <h4>Email</h4><p><input type="text" name="Email" value="<?php echo $_SESSION['email']; ?>"></p><br>
-                </form>
-            </div>
+            <div class="row">
+                <div class="col-md-6">
+                <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
+                </div>
+            
+                <div class="col-md-3 mt-5">
+                    <h4>First Name</h4><p><?php echo $_SESSION['fName']; ?></p><br>
+                    <h4>Email</h4><p><?php echo $_SESSION['email']; ?></p><br>
+                </div>
 
-            <div class="col-md-3 mt-5">
-                <form method="POST">
-                    <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
-                    <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>
-                    <button type="submit" name="edit details">Edit Details</button>
-                </form>
-            </div>            
+                <div class="col-md-3 mt-5">
+                    <h4>Last Name</h4> <p><?php echo $_SESSION['lName']; ?></p><br>
+                    <h4>Contact No.</h4> <p><?php echo $_SESSION['phone']; ?></p><br>
+                    <!-- <form method="post"> -->
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#EditProfile">Edit Profile</button>
+                    <!-- </form> -->
+
+                    <div class="modal fade" id="EditProfile" tabindex="-1" aria-labelledby="dailyBookingsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="dailyBookingsModalLabel">Edit Profile</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
+                                        </div>
+                                    
+                                        <div class="col-md-3 mt-5">
+                                            <!-- <form method="POST"> -->
+                                                <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
+                                            <!-- </form> -->
+                                        </div>
+
+                                        <div class="col-md-3 mt-5">
+                                            <!-- <form method="POST"> -->
+                                                <h4>Last Name</h4> <p><input type="text" name="Lname" value="<?php echo $_SESSION['lName']; ?>"></p><br>
+                                                <h4>Contact No.</h4> <p><input type="text" name="Contact" value="<?php echo $_SESSION['phone']; ?>"></p><br>                                            </form>
+                                        </div>            
+                                    </div>
+                                        
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post">
+                                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" name="acceptchanges">Accept Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div>
+        <!-- Pending Booking-->
+        <?php
+            $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
+            $sql->bind_param("i", $memberID);
+            $sql->execute();
+            $result = $sql->get_result();
+
+            //Check if there are any pending bookings
+            $isPending = false;
+            if ($result->num_rows > 0)
+                $isPending = true;            
+            else 
+                $isPending = false;               
+        ?>       
+        <div style="display: <?php echo $isPending ? 'block' : 'none'; ?>;"> <!--Will only show if there are pending bookings-->
+            <h1>Pending Bookings</h1>
+            <hr>
+            <table class="table custom-table">    
+                <thead>        
+                    <tr>
+                        <th>BookingID</th>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
+                        <th>Booked on</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>    
+                </thead>   
+
+                <tbody>         
+                    <?php 
+                        //Get all of the bookings of the user that are pending
+                        $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
+                                               FROM bookings a
+                                               INNER JOIN rooms b 
+                                               ON a.roomNumber = b.roomNumber
+                                               WHERE a.memberID = ?
+                                               AND a.status = 'pending'
+                                               ORDER BY a.bookingDate DESC");
+                        $sql->bind_param("i", $memberID);
+                        $sql->execute();
+                        $result = $sql->get_result();  
+                    
+                        if ($result->num_rows > 0) { //If there are bookings                           
+                            while ($row = $result->fetch_assoc()) {
+                    ?>                                                           
+                    <tr>
+                        <!--display booking-->
+                        <td><?php echo $row['bookingID']; ?></td>
+                        <td><?php echo $row['roomNumber']; ?></td>
+                        <td><?php echo $row['roomType']; ?></td>
+                        <td><?php echo $row['bookingDate']; ?></td>
+                        <td><?php echo $row['checkInDate']; ?></td>
+                        <td><?php echo $row['checkOutDate']; ?></td>
+                        <td><?php echo $row['status']; ?></td>
+                        <td>
+                            <form method="POST"> 
+                                <!--hidden inputs to pass data to the server-->
+                                <input type="hidden" name="bookingID" value="<?php echo $row['bookingID']; ?>">   
+                                <input type="hidden" name="checkInDate" value="<?php echo $row['checkInDate']; ?>"> 
+                                <input type="hidden" name="checkOutDate" value="<?php echo $row['checkOutDate']; ?>">                                                                               
+                                <button type="submit" name="edit" class="btn btn-primary">Change</button>
+                                <button type="submit" name="cancel" class="btn btn-danger">Cancel</button>
+                            </form>
+                        </td>
+                    </tr> 
+                    <?php  } 
+                        }else {
+                            echo "<tr><td colspan='8'>No bookings found</td></tr>";
+                        } ?>                         
+                </tbody>
+            </table>
         </div>
 
         <div>
@@ -89,37 +226,44 @@
                         <th>Booked on</th>
                         <th>Check In</th>
                         <th>Check Out</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Status</th>                        
                     </tr>    
                 </thead>    
 
                 <tbody>         
-                    <?php            
+                    <?php 
+                    
+                        $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
+                           FROM bookings a
+                           INNER JOIN rooms b 
+                           ON a.roomNumber = b.roomNumber
+                           WHERE a.memberID = ?
+                           ORDER BY a.bookingDate DESC");
+                            $sql->bind_param("i", $memberID);
+                            $sql->execute();
+                            $result = $sql->get_result();                        
+
                         if ($result->num_rows > 0) { //If there are bookings                           
                             while ($row = $result->fetch_assoc()) {
                     ?>                                                           
-                            <tr>
-                                <td><?php echo $row['bookingID']; ?></td>
-                                <td><?php echo $row['roomNumber']; ?></td>
-                                <td><?php echo $row['roomType']; ?></td>
-                                <td><?php echo $row['bookingDate']; ?></td>
-                                <td><?php echo $row['checkInDate']; ?></td>
-                                <td><?php echo $row['checkOutDate']; ?></td>
-                                <td><?php echo $row['status']; ?></td>
-                                <td>
-                                    <form method="POST" action="">                                                                                  
-                                        <button type="submit" name="edit" class="btn btn-primary">Change</button>
-                                        <button type="submit" name="delete" class="btn btn-danger">Cancel</button>
-                                    </form>
-                                </td>
-                            </tr> 
-                            <?php  } }else {
-                                        echo "<tr><td colspan='8'>No bookings found</td></tr>";
-                                        } ?>                         
+                    <tr>
+                        <td><?php echo $row['bookingID']; ?></td>
+                        <td><?php echo $row['roomNumber']; ?></td>
+                        <td><?php echo $row['roomType']; ?></td>
+                        <td><?php echo $row['bookingDate']; ?></td>
+                        <td><?php echo $row['checkInDate']; ?></td>
+                        <td><?php echo $row['checkOutDate']; ?></td>
+                        <td><?php echo $row['status']; ?></td>                        
+                    </tr> 
+                    <?php  
+                    } 
+                        }else {
+                            echo "<tr><td colspan='8'>No bookings found</td></tr>";
+                        } ?>                         
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 
     <footer>
