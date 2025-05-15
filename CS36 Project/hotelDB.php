@@ -1,7 +1,7 @@
 <?php
 
 $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
-$conn = new mysqli($servername, $username, $password, $database);   
+$conn = new mysqli($servername, $username, $password, $database = "hotelDB");   
 if ($conn->connect_error)   
     die("Connection failed ".$conn->connect_error);        
    

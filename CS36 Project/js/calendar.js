@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             start: checkIn,
             allDay: true,
             display: 'background',
-            backgroundColor: '#ffc107'
+            backgroundColor: '#6d72c3'
           });
         
         document.getElementById("checkin-date").innerText = checkIn;
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
             start: checkOut,
             allDay: true,
             display: 'background',
-            backgroundColor: '#ffc107'
+            backgroundColor: '#6d72c3'
           });
 
         // Highlight days between check in and check out
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             start: current.toISOString().split('T')[0],
             allDay: true,
             display: 'background',
-            backgroundColor: '#ffc107'
+            backgroundColor: '#6D72C3'
           });
           current.setDate(current.getDate() + 1);
         }

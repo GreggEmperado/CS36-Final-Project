@@ -146,7 +146,9 @@
     </head>
     <body>
         <header>
-                <img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" href="HomePage.php">
+                <a href="HomePage.Php"><img src="resources/RKGlogo.png" alt="RKG Hotel Logo" class="logo" ></a>
+
+                
                 <div class="navBar">
                     <ul>
                         <li><a href="Rooms.php">Rooms & Accommodations</a></li>
@@ -164,7 +166,7 @@
             </div>
         </header>
     
-        <div class="container">
+    <div class="container">
         <div class="container mt-5">
 
         <div class="row pt-5">

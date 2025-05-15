@@ -11,10 +11,10 @@ readMoreButtons.forEach((button) => {
         //finds content for the popup box
         const room = button.closest('.room');
         const roomContent = room.querySelector('.read-more-content').innerHTML;
-        const roomTitle = room.querySelector('.room-header').innerHTML;
+        const roomTitle = room.querySelector('.room-more-content').innerHTML;
 
         //put the content in the popup box
-        popupHeader.innerHTML = roomTitle;
+        popupBody.innerHTML = roomTitle;
         popupBody.innerHTML = roomContent;
         
 
@@ -27,4 +27,10 @@ readMoreButtons.forEach((button) => {
 // Add click event listener to the "Close" button
 closeButton.addEventListener('click', () => {
     popup.classList.remove('open'); // Remove the "open" class to hide the popup
+});
+
+document.querySelectorAll('.close-x').forEach(function(x) {
+    x.addEventListener('click', function() {
+        document.querySelector('.popup-box').classList.remove('open');
+    });
 });
