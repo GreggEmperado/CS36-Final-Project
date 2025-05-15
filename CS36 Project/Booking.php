@@ -104,7 +104,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
 
-        //This just checks the available rooms
+        //Fetches the available rooms
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $roomNum = $row['roomNumber'];
@@ -114,17 +114,14 @@
                       VALUES (?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bind_param("sssss", $memberID, $roomNum, $checkInDate, $checkOutDate, $status);
-        $insertStmt->execute();
-
-        echo "Booking confirmed for room ID: $roomNum";
+        $insertStmt->execute();        
 
         //Update room availability for each day in the booking period
         $currentDate = $checkInDate;
         while ($currentDate <= $checkOutDate) {
             $availabilitySql = "INSERT INTO roomAvailability (roomNumber, date)
                                 VALUES (?, ?)
-                                ON DUPLICATE KEY UPDATE roomNumber = roomNumber
-            ";
+                                ON DUPLICATE KEY UPDATE roomNumber = roomNumber";
             $availabilityStmt = $conn->prepare($availabilitySql);
             $availabilityStmt->bind_param("ss", $roomNum, $currentDate);
             $availabilityStmt->execute();
