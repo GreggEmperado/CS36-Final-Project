@@ -5,10 +5,17 @@
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);
 
-    /*if (isset($_POST['edit'])){
-        $sql = $conn->prepare("UPDATE rooms SET isAvailable = ? WHERE memberID = ?");
-        $sql->bind_param("si", )
-    }*/
+    $roomNumber = $roomType = $roomCapacity = $availability = $error = "";
+    
+
+    //Change availability
+    if (isset($_POST['change'])){
+        $roomNumber = $_POST['roomNumber'];
+        $availability = $_POST['availability'];
+        $sql = $conn->prepare("UPDATE rooms SET isAvailable = ? WHERE roomNumber = ?");
+        $sql->bind_param("ss", $availability, $roomNumber);
+        $sql->execute();       
+    }
 ?>
 <html>
     <head>
@@ -23,7 +30,8 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">                        <li><a class="dropdown-item" href="LogIn.php">Sign Out</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">                        
+                        <li><a class="dropdown-item" href="LogIn.php">Sign Out</a></li>
                     </ul>
                 </div>
         </header>
@@ -65,7 +73,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="availability" class="form-label">Availability</label>
-                                                <select name="availability" id="availability" class="form-control" required>
+                                                <select name="availability" id="availability" class="form-control" required>                                                    
                                                     <option value="Available">Available</option>
                                                     <option value="Unavailable">Unavailable</option>
                                                 </select>
@@ -89,17 +97,19 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" action="AdminRoomManagement.php">                                        
+                                        <form method="post" action="AdminRoomManagement.php">  
+                                            <input type="hidden" name="roomNumber" id="roomNumberInput" class="form-control"> <!-- Hidden field to store roomNumber-->
                                             <div class="mb-3">
-                                                <label for="availability" class="form-label">Availability</label>
+                                                <label for="availability" class="form-label">Availability</label>                                                
                                                 <select name="availability" id="availability" class="form-control" required>
-                                                    <option value="1">Available</option>
-                                                    <option value="0">Unavailable</option>
+                                                    <option selected="true" disabled="true">Choose...</option>
+                                                    <option value="available">Available</option>
+                                                    <option value="unavailable">Unavailable</option>
                                                 </select>
                                             </div>
                                             <div class="modal-footer">
+                                                <button type="submit" name="change" class="btn btn-success" style="background-color:#1D1128; border: 1px solid #1D1128">Change</button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" name="edit" class="btn btn-success" style="background-color:#1D1128; border: 1px solid #1D1128">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -185,9 +195,8 @@
                                     <td><?php echo $row['roomCapacity']; ?></td>
                                     <td><?php echo $row['isAvailable']; ?></td>
                                     <td>
-                                        <form method="POST" action="">                                                                                  
-                                            <button type="button" name="edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editRoomModal">Edit</button>
-                                            <button type="button" name="delete" class="btn btn-danger">wa pak o</button>
+                                        <form method="POST" action="">               
+                                            <button type="button" name="edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editRoomModal" onclick="setRoomNumber('<?php echo $row['roomNumber']; ?>')">Edit</button>
                                         </form>
                                     </td>                                
                                 </tr>
@@ -202,12 +211,8 @@
                     </div>
                 </div>
             </div>
-
                 </div>
-
-        </div>
-
-        
+        </div>        
         
         <script>
             document.getElementById('createRoomButton').addEventListener('click', function () {
@@ -218,6 +223,10 @@
                     form.style.display = 'none';
                 }
             });
+            //Function to set the room number in the edit modal
+            function setRoomNumber(roomNumber) {
+                document.getElementById('roomNumberInput').value = roomNumber;
+            }
         </script>
 
         <footer style="margin-top:auto;">

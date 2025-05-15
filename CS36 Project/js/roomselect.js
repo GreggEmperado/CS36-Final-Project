@@ -59,8 +59,8 @@ let roomCount = 0;
                             if (roomDiv) {
                                 totalprice -= price;
 
-                                document.getElementById("cart").textContent = `Your Cart: ${roomCount} Item(s)`;
-                                document.getElementById("total-price").textContent = `Total: PHP${totalprice}`;
+                                document.getElementById("cart").textContent = "Your Cart: ${roomCount} Item(s)";
+                                document.getElementById("total-price").textContent = "Total: PHP${totalprice}";
 
                                 roomDiv.remove();
                                 
@@ -72,11 +72,13 @@ let roomCount = 0;
 
                                 // If no rooms are selected, disable the "Confirm" button again
                                 if (roomCount === 0) {
-                                    document.getElementById("confirm").disabled = true;  // Disable the button
+                                    document.getElementById('confirm').disabled = true;  // Disable the button
                                 }
                             }
                         }
 
+                        
+                        //Temporary disabled
                         function handleConfirmBooking(event) {
                             // Prevent the default form submission
                             event.preventDefault();

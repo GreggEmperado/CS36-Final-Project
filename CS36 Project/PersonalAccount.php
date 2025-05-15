@@ -12,7 +12,7 @@
     // Redirect to login page or handle the error
         header("Location: LogIn.php");
         exit();
-    }
+    }  
 
     $fName = $lName = $phone = "";
 
@@ -42,10 +42,13 @@
         $sql->execute();
         
         //Remove values in room availability for the cancelled dates 
+        $roomNumber = $_POST['roomNumber']; 
         $checkInDate = $_POST['checkInDate'];
-        $checkOutDate = $_POST['checkOutDate'];      
+        $checkOutDate = $_POST['checkOutDate'];        
         $current = strtotime($checkInDate);
         $end = strtotime($checkOutDate);
+
+        //Loop through the dates and remove them from the room availability table
         while ($current < $end) {
             $date = date('Y-m-d', $current);
             $sql2 = $conn->prepare("DELETE FROM roomAvailability WHERE roomNumber = ? AND date = ?");
@@ -177,7 +180,7 @@
                                                ON a.roomNumber = b.roomNumber
                                                WHERE a.memberID = ?
                                                AND a.status = 'pending'
-                                               ORDER BY a.bookingDate DESC");
+                                               ORDER BY a.bookingID DESC");
                         $sql->bind_param("i", $memberID);
                         $sql->execute();
                         $result = $sql->get_result();  
@@ -197,7 +200,8 @@
                         <td>
                             <form method="POST"> 
                                 <!--hidden inputs to pass data to the server-->
-                                <input type="hidden" name="bookingID" value="<?php echo $row['bookingID']; ?>">   
+                                <input type="hidden" name="bookingID" value="<?php echo $row['bookingID']; ?>">
+                                <input type="hidden" name="roomNumber" value="<?php echo $row['roomNumber']; ?>">    
                                 <input type="hidden" name="checkInDate" value="<?php echo $row['checkInDate']; ?>"> 
                                 <input type="hidden" name="checkOutDate" value="<?php echo $row['checkOutDate']; ?>">                                                                               
                                 <button type="submit" name="edit" class="btn btn-primary">Change</button>
@@ -230,17 +234,16 @@
                 </thead>    
 
                 <tbody>         
-                    <?php 
-                    
+                    <?php                     
                         $sql = $conn->prepare("SELECT a.bookingID, a.roomNumber, b.roomType, a.bookingDate, a.checkInDate, a.checkOutDate, a.status
-                           FROM bookings a
-                           INNER JOIN rooms b 
-                           ON a.roomNumber = b.roomNumber
-                           WHERE a.memberID = ?
-                           ORDER BY a.bookingDate DESC");
-                            $sql->bind_param("i", $memberID);
-                            $sql->execute();
-                            $result = $sql->get_result();                        
+                                               FROM bookings a
+                                               INNER JOIN rooms b 
+                                               ON a.roomNumber = b.roomNumber
+                                               WHERE a.memberID = ?
+                                               ORDER BY a.bookingID DESC");
+                        $sql->bind_param("i", $memberID);
+                        $sql->execute();
+                        $result = $sql->get_result();                        
 
                         if ($result->num_rows > 0) { //If there are bookings                           
                             while ($row = $result->fetch_assoc()) {

@@ -38,7 +38,14 @@
                     $_SESSION['email'] = $dbEmail;
                     $_SESSION['phone'] = $dbPhone;                    
                                      
-                    header("Location: HomePage.php");          
+                    //Check if the user is an admin 
+                    if ($dbEmail === "admin@gmail.com" && $dbPassword === "admin123") {
+                        header("Location: AdminBookingList.php");
+                        exit();
+                    } else {
+                        header("Location: HomePage.php");
+                        exit();
+                    }         
                 }
                 else
                     $passErr = "Invalid password.";
@@ -88,13 +95,10 @@
                   <button class="signin" type="submit" name="login" href="HomePage.php">Log In</button>
                 </div>
 
-
-
                 <div class="newAcc">
                   <a href="Sign-up.php">Make new account?</a>
                 </div>
             </form>
-
         </div>
 
         <footer>

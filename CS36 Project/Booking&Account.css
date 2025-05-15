@@ -30,6 +30,10 @@ button :hover{
     cursor: pointer;
 }
 
+button :disabled{
+    background-color: red;
+}
+
 .fc-today-button{
     background-color: #1D1128 !important; 
     color: white !important;

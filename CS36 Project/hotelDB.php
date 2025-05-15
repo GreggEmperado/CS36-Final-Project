@@ -42,11 +42,11 @@ $sqlBookingTable = "CREATE TABLE IF NOT EXISTS bookings(
 );"; 
 
 $sqlAvailability = "CREATE TABLE IF NOT EXISTS roomAvailability(
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        roomNumber VARCHAR(5) NOT NULL,
-        date DATE NOT NULL,
-        UNIQUE (roomNumber, date),
-        FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON DELETE CASCADE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    roomNumber VARCHAR(5) NOT NULL,
+    date DATE NOT NULL,
+    UNIQUE (roomNumber, date),
+    FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON DELETE CASCADE
 );";
 
 if ($conn->query($sqlRoomTable) === TRUE) {
