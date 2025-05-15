@@ -34,15 +34,19 @@
                     </ul>
                 </div>
         </header>
-
-        <div class="container mt-5 manager custom-table">
-            <h2 class="text-center mb-4 pt-4">HOTEL DATABASE MANAGER</h2>
-            <div class="row">
-                <div class="col-md-2">
+        <div class="row flex-grow-1">
+            <div class="col-md-2 container">
+                <h2 class="text-center mb-4 pt-4">HOTEL DATABASE MANAGER</h2>
                     <a class="manager-buttons" href="AdminRoomManagement.php">Room Manager</a><br>
                     <a class="manager-buttons" href="AdminGuestList.php">Member Manager</a><br>
                     <a class="manager-buttons" href="AdminBookingList.php">Booking Manager</a><br>
 
+            </div>
+
+            <div class="col-md-10 mt-5">
+            <div class="container pt-3 manager custom-table">
+            <div class="row">
+                <div>
                     <!-- Daily Bookings Modal -->
                     <div class="modal fade" id="dailyBookingsModal" tabindex="-1" aria-labelledby="dailyBookingsModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -99,8 +103,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-10 justify-content-center ps-5">
-                    <h4>List of Bookings</h4>
+                <div class="col-md-12 justify-content-center ps-5">
+                    <h2>List of Bookings</h2>
                     <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#dailyBookingsModal" style="background-color:#1d1128; border: 1px solid #1d1128; color: white;">Generate Daily Booking Report</button>
                     <br><br>
                 
@@ -163,7 +167,11 @@
                 <button type="submit" class="btn btn-primary">Back to Dashboard</button>
             </form> -->
             </div>
-        </div>
+            </div>
+            </div>
+            </div>
+
+        
 
         <script>
             document.getElementById('createRoomButton').addEventListener('click', function () {

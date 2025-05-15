@@ -24,7 +24,7 @@ button{
     padding: 5px 10px;
 }
 
-button:hover{
+button :hover{
     background-color: #5941A9;
     color: white;
     cursor: pointer;
@@ -76,6 +76,7 @@ button:hover{
 
 .container{
     background-color: #d9d9d9;
+    flex-grow: 1;
 }
 
 .a-logo{
@@ -263,17 +264,18 @@ input[type="text"]{
 }
 
 .manager-buttons {
-    display: block; /* Makes the links behave like block elements */
-    text-align: center; 
-    font-size: 1rem; 
-    padding: 10px 30px; 
-    margin-bottom: 10px; 
-    background-color: #1D1128;
-    color: white; 
-    text-decoration: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    inline-size: min-content; /* Ensures the button takes the width of its content */
+    display: block; /* Ensures buttons are displayed as block elements */
+    width: 100%; /* Makes all buttons the same width */
+    padding: 10px 10px; /* Adds consistent padding */
+    margin-bottom: 10px; /* Adds spacing between buttons */
+    font-size: 1rem; /* Sets a uniform font size */
+    text-align: center; /* Centers the text */
+    color: white; /* Sets the text color */
+    background-color: #1d1128; /* Sets the background color */
+    border: 1px solid #1d1128; /* Matches the background color */
+    border-radius: 5px; /* Adds rounded corners */
+    text-decoration: none; /* Removes underline from links */
+    transition: all 0.3s ease; /* Adds a smooth transition effect */
 }
 
 .manager-buttons:hover {
