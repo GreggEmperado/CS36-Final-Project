@@ -17,7 +17,7 @@ $sqlRoomTable = "CREATE TABLE IF NOT EXISTS rooms(
     roomNumber VARCHAR(5) PRIMARY KEY,
     roomType TEXT NOT NULL, 
     roomCapacity INT NOT NULL,
-    isAvailable BOOLEAN DEFAULT TRUE
+    isAvailable ENUM('available', 'unavailable') DEFAULT 'available'
 );"; 
 
 $sqlMemberTable = "CREATE TABLE IF NOT EXISTS members(
