@@ -163,6 +163,9 @@
     
     
     <div class="container">
+        <div class="container black-heading">
+                <h1 class="text-center black-heading p-2 mt-3">Booking</h1>
+            </div>
         <div class="container mt-5">
             <div class="row pt-5">
                 <div class="col-md-6">

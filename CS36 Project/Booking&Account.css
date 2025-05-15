@@ -67,8 +67,9 @@ button :disabled{
 }
 
 .fc-daygrid-day-top{
-    flex-direction: column !important;
-    justify-content: center !important;
+    display:flex !important;
+    flex-direction: row !important;
+    justify-content:flex-start !important;
 }
 
 .fc-highlight {
@@ -294,4 +295,13 @@ h2{
 
 .manager-buttons{
     margin-left: 5px;
+}
+
+.black-heading{
+    background-color: #1d1128 !important;
+    /* font-family: Baskerville !important; */
+    font-size: 3rem !important;
+    text-align: left !important;
+    color:white !important;
+    align-items: center !important;
 }

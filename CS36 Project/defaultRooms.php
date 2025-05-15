@@ -31,6 +31,7 @@
             
             ('701', 'pent', 5), ('702', 'pent', 5), ('703', 'pent', 5), ('704', 'pent', 5)";
 
-    $conn->query($sql);   
+    $conn->query($sql);
+    $conn->query("INSERT INTO members (email, password, firstName) VALUES ('admin@gmail.com', 'admin123', 'admin')");   
     $conn->close();   
 ?>

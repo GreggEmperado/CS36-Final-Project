@@ -142,6 +142,7 @@
                     </ul>
                 </div>
         </header>
+        
 
         <!-- Edit Room Number Modal-->
         <div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="editRoomModalLabel" aria-hidden="true">
@@ -178,13 +179,17 @@
             </div>
         </div>
 
-        <div class="container mt-5">
+
+        <div class="container">
+            <div class="container black-heading">
+                <h1 class="text-center black-heading p-2 mt-3">My Profile</h1>
+            </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                 <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
                 </div>
             
-                <div class="col-md-3 mt-5">
+                <div class="col-md-4 mt-5">
                     <h4>First Name</h4><p><?php echo $_SESSION['fName']; ?></p><br>
                     <h4>Email</h4><p><?php echo $_SESSION['email']; ?></p><br>
                 </div>
