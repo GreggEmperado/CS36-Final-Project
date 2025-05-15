@@ -188,7 +188,7 @@
             </div>
             
             <div class="col-md-6 border-3">
-                <form method="POST">
+                <form method="POST" onsubmit="return handleConfirmBooking(event)">
                     <?php if ($roomslist): ?>
                     <h2>Rooms Available</h2>
                     <hr>
@@ -265,8 +265,31 @@
                     <div class="col-md-5">
                         <h4 id="cart">Your Cart: 0 Item(s)</h4>
                         <p id="total-price">Total: PHP0</p>
-                        <button type="submit" name="confirm" id="confirm" disabled>Confirm Booking</button>
+                        <button type="submit" name="confirm" id="confirm" data-bs-toggle="modal" data-bs-target="#bookingSuccessful" disabled>Confirm Booking</button>
+                        <div class="modal fade" id="bookingSuccessful" tabindex="-1" aria-labelledby="dailyBookingsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="dailyBookingsModalLabel">Successful Booking</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Your booking has been successfully confirmed!</p>
+                                        <p>Check your email for the booking details.</p>
+                                        <p>Thank you for choosing RKG Hotel!</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Book again</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" action="HomePage.php">Home</button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    </div>
+
+
 
                 </form>
 
@@ -348,6 +371,26 @@
                                     document.getElementById("confirm").disabled = true;  // Disable the button
                                 }
                             }
+                        }
+
+                        function handleConfirmBooking(event) {
+                            // Prevent the default form submission
+                            event.preventDefault();
+
+                            // Show the modal
+                            const bookingModal = new bootstrap.Modal(document.getElementById('bookingSuccessful'));
+                            bookingModal.show();
+
+                            // Optionally, you can submit the form after the modal is displayed
+                            // Uncomment the following line if you want to submit the form after showing the modal
+                            // document.querySelector('form').submit();
+
+                            // Return false to prevent the default form submission
+                            return false;
+                        }
+
+                        function redirectToHome() {
+                            window.location.href = "HomePage.php"; // Redirects to HomePage.php
                         }
                 </script>
             </div>
