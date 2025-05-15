@@ -71,8 +71,75 @@
                 <span class="dot" data-slide="3"></span>
             </div>
         </div>  
-        
+    
         <script src="js\slideshow.js"></script>
+
+        <div class = "resaurant-section">
+            <div class = "card-group">
+                <div class = "card-header">
+                    <h1>Restaurant & Bar</h1>
+                </div>
+                <div class = "card-body">
+
+                    <div class = "card-text">
+                        <h4>Restaurant</h4>
+                        <p>Our restaurant offers a wide variety of local and international cuisine, prepared by our talented chefs. Enjoy a delightful dining experience in a cozy and elegant atmosphere.</p>
+
+                        <button class="card-button">Explore Menu</button>
+
+                    </div>
+
+                    <div class = "card-img-wrapper">
+                        <img src="resources/restaurant.jpg" alt="Restaurant Image" class="card-img-top">
+                    </div>
+
+                </div>
+
+        </div>
+
+        <div class = "events-section">
+            <div class = "events-card-group">
+                <div class = "events-card-header">
+                    <h1>Meetings & Events</h1>
+                    <p>Host your next event with us and make it a memorable experience.</p>
+                </div>
+                <div class = "events-card-body">
+
+                    <div class = "events-card-img-wrapper">
+                        <div class="event-img1-container">
+                            <img src="resources/diningtable2.jpg" alt="Dining Table Image" class="card-img">
+                        </div>
+
+                        <div class="event-img2-container">
+                            <img src="resources/wedding1.jpg" alt="Wedding Image" class="card-img">
+                        </div>
+  
+                    </div>
+
+                    <div class = "events-card-text">
+                        <h4>Meetings and Events</h4>
+                        <p>Our hotel offers state-of-the-art facilities for meetings and events. Whether it's a corporate meeting, a wedding, or a special celebration, we have the perfect space for you.</p>
+                    </div>
+                </div>
+
+                <div class = "events-card-body">
+                    <div class = "events-card-text">
+                        <h4>Weddings</h4>
+                        <p>Make your dream wedding a reality at our hotel. With stunning venues, exceptional service, and exquisite catering options, we will help you create the perfect day.</p>
+                    </div>
+
+                    <div class = "events-card-img-wrapper">
+                        <div class="event-img1-container">
+                            <img src="resources/wedding2.jpg" alt="Wedding Image" class="card-img">
+                        </div>
+
+                        <div class="event-img2-container">
+                            <img src="resources/beach.jpg" alt="Beach Image" class="card-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <footer>
             <h1>RKG Hotel</h1>
