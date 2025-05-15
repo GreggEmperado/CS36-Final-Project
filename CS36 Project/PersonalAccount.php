@@ -82,20 +82,6 @@
     </header>
 
     <div class="container mt-5">
-        <!-- Account Editing -->
-        
-        <div class="row">
-            <div class="col-md-6">
-            <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
-            </div>
-           
-            <div class="col-md-3 mt-5">
-                <form method="POST">l
-                    <h4>First Name</h4><p><input type="text" name="fName" value="<?php echo $_SESSION['fName']; ?>"></p><br>
-                    <h4>Email</h4><p><input type="text" name="Email" value="<?php echo $_SESSION['email']; ?>"></p><br>
-                </form>
-            </div>
-
             <div class="row">
                 <div class="col-md-6">
                 <img src="resources\defaultprofile.png" class="profileimg rounded-circle pt-3 m-5 img-fluid mx-auto d-block">
@@ -151,7 +137,6 @@
                 </div>
             </div>
         <div>
-            <h1>Booking History</h1>
         <!-- Pending Booking-->
         <?php
             $sql = $conn->prepare("SELECT 1 FROM bookings WHERE memberID = ? AND status = 'pending'");
@@ -273,6 +258,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 
     <footer>
