@@ -1,3 +1,18 @@
+<?php
+    session_start();  
+    $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
+    $conn = new mysqli($servername, $username, $password, $database);   
+    if ($conn->connect_error)   
+        die("Connection failed ".$conn->connect_error);
+
+    if (isset($_POST['delete'])){
+        $memberID = $_POST['memberID'];       
+        $sql = $conn->prepare("DELETE FROM members WHERE memberID = ?");
+        $sql->bind_param("i", $memberID);
+        $sql->execute();
+    }
+
+?>
 <html>
     <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,33 +65,27 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // Example PHP code to fetch booking data grouped by guest
-                                                $conn = new mysqli("localhost", "root", "", "hotelDB");
+                                                //Example PHP code to fetch booking data grouped by guest                                                   
 
-                                                if ($conn->connect_error) {
-                                                    die("Connection failed: " . $conn->connect_error);
-                                                }
+                                                    $sql = "SELECT a.memberID, a.firstName, a.lastName, COUNT(b.bookingID) AS total_bookings
+                                                            FROM members a
+                                                            LEFT JOIN bookings b ON a.memberID = b.memberID
+                                                            GROUP BY a.memberID, a.firstName, a.lastName";
+                                                    $result = $conn->query($sql);
 
-                                                $sql = "SELECT a.memberID, a.first_name, a.last_name, COUNT(b.booking_id) AS total_bookings
-                                                        FROM guests a
-                                                        LEFT JOIN bookings b ON a.member_id = b.member_id
-                                                        GROUP BY a.member_id, a.first_name, a.last_name";
-                                                $result = $conn->query($sql);
-
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo "<tr>
-                                                                <td>{$row['member_id']}</td>
-                                                                <td>{$row['first_name']}</td>
-                                                                <td>{$row['last_name']}</td>
-                                                                <td>{$row['total_bookings']}</td>
-                                                            </tr>";
+                                                    if ($result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            echo "<tr>
+                                                                    <td>{$row['memberID']}</td>
+                                                                    <td>{$row['firstName']}</td>
+                                                                    <td>{$row['lastName']}</td>
+                                                                    <td>{$row['total_bookings']}</td>
+                                                                </tr>";
+                                                        }
+                                                    } else {
+                                                        echo "<tr><td colspan='4'>No bookings found</td></tr>";
                                                     }
-                                                } else {
-                                                    echo "<tr><td colspan='4'>No bookings found</td></tr>";
-                                                }
-
-                                                $conn->close();
+                                                   
                                                 ?>
                                             </tbody>
                                         </table>
@@ -97,52 +106,46 @@
                     <br>
                     
                         <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Member ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Contact No.</th>
-                                <th>password</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                // $conn = new mysqli("localhost", "root", "", "hotelDB");
-                                // $sql = "SELECT * FROM rooms";
-                                // $result = $conn->query($sql);
-                                
-                                // if ($result->num_rows > 0) {
-                                //     while ($row = $result->fetch_assoc()) {
-                            ?>
-                                        <tr>
-                                            <td><?php //echo $row['room_number']; ?></td>
-                                            <td><?php //echo $row['room_type']; ?></td>
-                                            <td><?php //echo $row['price']; ?></td>
-                                            <td ><?php //echo $row['status']; ?></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <form method="post" action="AdminRoomManagement.php">
-                                                    <input type="hidden" name="roomID" value="<?php //echo $row['roomID']; ?>">
-                                                    <button type="submit" name="edit" class="btn btn-primary">Edit</button>
-                                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-
-                                        
-
-                                        
-                            <?php
-                                //     }
-                                // } else {
-                                //     echo "<tr><td colspan='4'>No rooms found</td></tr>";
-                                // }
-                            ?>
-                        </tbody>
+                            <thead>
+                                <tr>
+                                    <th>Member ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Contact No.</th>
+                                    <th>password</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php                                    
+                                    $sql = "SELECT * FROM members";
+                                    $result = $conn->query($sql);                                    
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $row['memberID']; ?></td>
+                                    <td><?php echo $row['firstName']; ?></td>
+                                    <td><?php echo $row['lastName']; ?></td>
+                                    <td><?php echo $row['email']; ?></td>
+                                    <td><?php echo $row['phoneNumber']; ?></td>
+                                    <td><?php echo $row['password']; ?></td>                               
+                                    <td>
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="memberID" value="<?php echo $row['memberID']; ?>">                                            
+                                            <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+            
+                                <?php
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='4'>No rooms found</td></tr>";
+                                    }
+                                ?>
+                            </tbody>
                         </table>
                     </div>
 
@@ -170,7 +173,6 @@
             <h1>RKG Hotel</h1>
             <p>Dumaguete City, Negros Oriental 6200, Philippines</p>
             <p>rkghotel@gmail.com</p>
-        </footer>
-    
+        </footer>    
     </body>
 </html>

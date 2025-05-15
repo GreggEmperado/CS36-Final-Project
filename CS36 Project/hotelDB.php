@@ -37,8 +37,8 @@
         checkOutDate DATE NOT NULL,
         bookingDate DATE NOT NULL DEFAULT CURRENT_DATE,
         status VARCHAR(25) NOT NULL,
-        FOREIGN KEY (memberID) REFERENCES members(memberID) ON UPDATE CASCADE,
-        FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON UPDATE CASCADE
+        FOREIGN KEY (memberID) REFERENCES members(memberID) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON UPDATE CASCADE ON DELETE CASCADE
     );"; 
 
     $sqlAvailability = "CREATE TABLE IF NOT EXISTS roomAvailability(
