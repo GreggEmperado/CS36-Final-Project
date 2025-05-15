@@ -1,36 +1,39 @@
 // Select all "Read More" buttons and the popup box
 const readMoreButtons = document.querySelectorAll('.readMore');
 const popup = document.querySelector('.popup-box');
-const popupHeader = document.querySelector('.popup-header');
 const popupBody = document.querySelector('.popup-body');
 const closeButton = document.querySelector('.close-btn');
+const closeX = document.querySelector('.close-x');
+const popupTitle = document.querySelector('.popup-title');
 
 // Add click event listeners to each "Read More" button
 readMoreButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
-        //finds content for the popup box
+        // Find content for the popup box
         const room = button.closest('.room');
+        const roomHeader = room.querySelector('.room-header').innerHTML;
         const roomContent = room.querySelector('.read-more-content').innerHTML;
-        const roomTitle = room.querySelector('.room-more-content').innerHTML;
 
-        //put the content in the popup box
-        popupBody.innerHTML = roomTitle;
+        // Put the content in the popup box
+        popupTitle.innerHTML = roomHeader;
         popupBody.innerHTML = roomContent;
-        
 
-        //show the popup box
+        // Show the popup box
         popup.classList.add('open');
         event.stopPropagation(); // Prevent event bubbling
     });
 });
 
 // Add click event listener to the "Close" button
-closeButton.addEventListener('click', () => {
-    popup.classList.remove('open'); // Remove the "open" class to hide the popup
-});
-
-document.querySelectorAll('.close-x').forEach(function(x) {
-    x.addEventListener('click', function() {
-        document.querySelector('.popup-box').classList.remove('open');
+if (closeButton) {
+    closeButton.addEventListener('click', () => {
+        popup.classList.remove('open');
     });
-});
+}
+
+// Add click event listener to the "X" button
+if (closeX) {
+    closeX.addEventListener('click', () => {
+        popup.classList.remove('open');
+    });
+}
