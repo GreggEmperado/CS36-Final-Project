@@ -293,10 +293,6 @@ button:focus{
     color: white;
 }
 
-.readMore{
-    margin-right: 0;
-    margin-left: auto;
-}
 
 .form-log-in{
     display: flex;
@@ -377,6 +373,13 @@ a:hover{
     background-color: #E5D4ED;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+    min-height: 350px;      
+    height: 100%;           /* Allow flex parent to control height */
+    box-sizing: border-box;
+}
+
+.rooms-container {
+    align-items: stretch;
 }
 
 .room-image{
@@ -391,8 +394,36 @@ a:hover{
     visibility: hidden;
 }
 
+.readMore{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+    border-radius: 0%;
+    color: black;
+    padding: 10px;
+    border: 1px solid #1D1128;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 0;
+    margin-right: auto;
+}
+
 .read-more-content {
     display: none; /* Hide the content by default */
+}
+
+.slide-btn{
+    display: flex;
+    justify-content: center;
+    min-width: max-content;
+    align-items: center;
+    background-color: #1D1128;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none; 
 }
 
 .popup-box {

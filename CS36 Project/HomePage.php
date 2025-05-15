@@ -58,7 +58,7 @@
             <div class="text-holder">
                 <h1>Luxury At Its Finest</h1>
                 <p>Experience the wonders of our rooms and feel your troubles melt away</p>
-                <button>Rooms & Accommodations</button>
+                <a href="Rooms.php" class="slide-btn">Rooms & Accommodations</a>
             </div>
 
             <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
@@ -82,7 +82,7 @@
                 <div class = "card-body">
 
                     <div class = "card-text">
-                        <h4>Restaurant</h4>
+                        <h4>Gregg's</h4>
                         <p>Our restaurant offers a wide variety of local and international cuisine, prepared by our talented chefs. Enjoy a delightful dining experience in a cozy and elegant atmosphere.</p>
 
                         <button class="card-button">Explore Menu</button>
@@ -139,6 +139,27 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class = "gym-section">
+            <div class = "card-group">
+                <div class = "card-header">
+                    <h1>Workout Area</h1>
+                </div>
+                <div class = "card-body">
+
+                    <div class = "card-text">
+                        <h4>Gymdol</h4>
+                        <p>Our gym is equipped with the latest fitness equipment and offers a variety of classes to help you stay fit and healthy during your stay. Whether you're a beginner or an experienced athlete, we have something for everyone.</p>
+
+                    </div>
+
+                    <div class = "card-img-wrapper">
+                        <img src="resources/gym.jpg" alt="Gym Image" class="card-img-top">
+                    </div>
+
+                </div>
+
         </div>
 
         <footer>
