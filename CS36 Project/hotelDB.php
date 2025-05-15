@@ -1,78 +1,78 @@
 <?php
 
-$servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
-$conn = new mysqli($servername, $username, $password, $database = "hotelDB");   
-if ($conn->connect_error)   
-    die("Connection failed ".$conn->connect_error);        
-   
-$sqlDatabase = "CREATE DATABASE IF NOT EXISTS $database";
-if ($conn->query($sqlDatabase) === TRUE)
-    $msg = "Database created successfully!";               
-else
-    $msgErr = "Error creating database: ".$conn->error;
+    $servername = "localhost"; $username = "root"; $password = ""; $database = "hotelDB";
+    $conn = new mysqli($servername, $username, $password, $database = "hotelDB");   
+    if ($conn->connect_error)   
+        die("Connection failed ".$conn->connect_error);        
+    
+    $sqlDatabase = "CREATE DATABASE IF NOT EXISTS $database";
+    if ($conn->query($sqlDatabase) === TRUE)
+        $msg = "Database created successfully!";               
+    else
+        $msgErr = "Error creating database: ".$conn->error;
 
-$conn = new mysqli($servername, $username, $password, $database);
+    $conn = new mysqli($servername, $username, $password, $database);
 
-$sqlRoomTable = "CREATE TABLE IF NOT EXISTS rooms(    
-    roomNumber VARCHAR(5) PRIMARY KEY,
-    roomType TEXT NOT NULL, 
-    roomCapacity INT NOT NULL,
-    isAvailable ENUM('available', 'unavailable') DEFAULT 'available'
-);"; 
+    $sqlRoomTable = "CREATE TABLE IF NOT EXISTS rooms(    
+        roomNumber VARCHAR(5) PRIMARY KEY,
+        roomType TEXT NOT NULL, 
+        roomCapacity INT NOT NULL,
+        isAvailable ENUM('available', 'unavailable') DEFAULT 'available'
+    );"; 
 
-$sqlMemberTable = "CREATE TABLE IF NOT EXISTS members(
-    memberID INT AUTO_INCREMENT PRIMARY KEY, 
-    firstName VARCHAR(40) NOT NULL,
-    lastName VARCHAR(40) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phoneNumber VARCHAR(20) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);";  
+    $sqlMemberTable = "CREATE TABLE IF NOT EXISTS members(
+        memberID INT AUTO_INCREMENT PRIMARY KEY, 
+        firstName VARCHAR(40) NOT NULL,
+        lastName VARCHAR(40) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        phoneNumber VARCHAR(20) NOT NULL,
+        password VARCHAR(255) NOT NULL
+    );";  
 
-$sqlBookingTable = "CREATE TABLE IF NOT EXISTS bookings(
-    bookingID INT AUTO_INCREMENT PRIMARY KEY,
-    memberID INT DEFAULT NULL,
-    roomNumber VARCHAR(5) NOT NULL,
-    checkInDate DATE NOT NULL,
-    checkOutDate DATE NOT NULL,
-    bookingDate DATE NOT NULL DEFAULT CURRENT_DATE,
-    status VARCHAR(25) NOT NULL,
-    FOREIGN KEY (memberID) REFERENCES members(memberID) ON UPDATE CASCADE,
-    FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON UPDATE CASCADE
-);"; 
+    $sqlBookingTable = "CREATE TABLE IF NOT EXISTS bookings(
+        bookingID INT AUTO_INCREMENT PRIMARY KEY,
+        memberID INT DEFAULT NULL,
+        roomNumber VARCHAR(5) NOT NULL,
+        checkInDate DATE NOT NULL,
+        checkOutDate DATE NOT NULL,
+        bookingDate DATE NOT NULL DEFAULT CURRENT_DATE,
+        status VARCHAR(25) NOT NULL,
+        FOREIGN KEY (memberID) REFERENCES members(memberID) ON UPDATE CASCADE,
+        FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON UPDATE CASCADE
+    );"; 
 
-$sqlAvailability = "CREATE TABLE IF NOT EXISTS roomAvailability(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    roomNumber VARCHAR(5) NOT NULL,
-    date DATE NOT NULL,
-    UNIQUE (roomNumber, date),
-    FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON DELETE CASCADE
-);";
+    $sqlAvailability = "CREATE TABLE IF NOT EXISTS roomAvailability(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        roomNumber VARCHAR(5) NOT NULL,
+        date DATE NOT NULL,
+        UNIQUE (roomNumber, date),
+        FOREIGN KEY (roomNumber) REFERENCES rooms(roomNumber) ON DELETE CASCADE
+    );";
 
-if ($conn->query($sqlRoomTable) === TRUE) {
-    echo "Rooms table created successfully.<br>";
-} else {
-    echo "Error creating Rooms table: " . $conn->error . "<br>";
-}
+    if ($conn->query($sqlRoomTable) === TRUE) {
+        echo "Rooms table created successfully.<br>";
+    } else {
+        echo "Error creating Rooms table: " . $conn->error . "<br>";
+    }
 
-if ($conn->query($sqlMemberTable) === TRUE) {
-    echo "Members table created successfully.<br>";
-} else {
-    echo "Error creating Customers table: " . $conn->error . "<br>";
-}
+    if ($conn->query($sqlMemberTable) === TRUE) {
+        echo "Members table created successfully.<br>";
+    } else {
+        echo "Error creating Customers table: " . $conn->error . "<br>";
+    }
 
-if ($conn->query($sqlBookingTable) === TRUE) {
-    echo "Bookings table created successfully.<br>";
-} else {
-    echo "Error creating Bookings table: " . $conn->error . "<br>";
-}
+    if ($conn->query($sqlBookingTable) === TRUE) {
+        echo "Bookings table created successfully.<br>";
+    } else {
+        echo "Error creating Bookings table: " . $conn->error . "<br>";
+    }
 
-if ($conn->query($sqlAvailability) === TRUE) {
-    echo "Availability table created successfully.<br>";
-} else {
-    echo "Error creating Bookings table: " . $conn->error . "<br>";
-}
+    if ($conn->query($sqlAvailability) === TRUE) {
+        echo "Availability table created successfully.<br>";
+    } else {
+        echo "Error creating Bookings table: " . $conn->error . "<br>";
+    }
 
-$conn->close();  
+    $conn->close();  
 
 ?>

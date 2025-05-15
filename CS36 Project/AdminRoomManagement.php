@@ -79,7 +79,8 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" name="create" class="btn btn-success" style="background-color:#1D1128; border: 1px solid #1D1128">Submit</button>
+                                                <button type="submit" name="create" class="btn btn-success" 
+                                                    style="background-color:#1D1128; border: 1px solid #1D1128">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -87,7 +88,7 @@
                             </div>
                         </div>
 
-                        <!-- Edit Room Modal-->
+                        <!-- Room Availability Modal-->
                         <div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="editRoomModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -97,7 +98,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form method="post" action="AdminRoomManagement.php">  
-                                            <input type="hidden" name="roomNumber" id="roomNumberInput" class="form-control"> <!-- Hidden field to store roomNumber-->
+                                            <input type="hidden" name="roomNumber" id="roomNumberInput" class="form-control"> <!--Hidden field to store roomNumber-->
                                             <div class="mb-3">
                                                 <label for="availability" class="form-label">Availability</label>                                                
                                                 <select name="availability" id="availability" class="form-control" required>
@@ -107,7 +108,8 @@
                                                 </select>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="submit" name="change" class="btn btn-success" style="background-color:#1D1128; border: 1px solid #1D1128">Change</button>
+                                                <button type="submit" name="changeRoomAvail" class="btn btn-success" 
+                                                    style="background-color:#1D1128; border: 1px solid #1D1128">Change</button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </form>
@@ -167,8 +169,10 @@
                                 
                     <div class="col-md-12 justify-content-center ps-5">
                         <h2 class="row">Room Management</h2>
-                        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>
-                        <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#bookingPerRoomModal" style="background-color:#1D1128; border: 1px solid #1D1128; color: white;">Generate Booking Report</button>
+                        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" 
+                            style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>
+                        <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#bookingPerRoomModal" 
+                            style="background-color:#1D1128; border: 1px solid #1D1128; color: white;">Generate Booking Report</button>
                         <br>
                         <br>
                         <table class="table table-bordered">
@@ -195,7 +199,8 @@
                                     <td><?php echo $row['isAvailable']; ?></td>
                                     <td>
                                         <form method="POST" action="">               
-                                            <button type="button" name="edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editRoomModal" onclick="setRoomNumber('<?php echo $row['roomNumber']; ?>')">Edit</button>
+                                            <button type="button" name="edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editRoomModal" 
+                                                onclick="setRoomNumber('<?php echo $row['roomNumber']; ?>')">Edit</button>
                                         </form>
                                     </td>                                
                                 </tr>
@@ -222,7 +227,7 @@
                     form.style.display = 'none';
                 }
             });
-            //Function to set the room number in the edit modal
+            //Function to set the roomNumber
             function setRoomNumber(roomNumber) {
                 document.getElementById('roomNumberInput').value = roomNumber;
             }
