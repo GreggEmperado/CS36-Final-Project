@@ -523,6 +523,10 @@ a:hover{
     z-index: 10;
 }
 
+.close-x:hover {
+    color: #1D1128;
+}
+
 .popup-title{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -836,4 +840,70 @@ a:hover{
     color: white;
     transform: translateY(-50%) scale(1.1); /* Decrease size on click */
     transition: transform 0.2s, background-color 0.2s, color 0.2s;
+}
+
+/*owner section*/
+.owner-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    background-color: #323139;
+    color: white;
+}
+
+.owner-group{
+    display: flex;
+    color:white;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    margin: 0;
+    padding: 50px; 
+    width: 100%;
+}
+
+.owner-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.owner-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    padding: 50px;
+}
+
+.owner-card {
+    background: #E5D4ED;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 280px;         /* Fixed width for all cards */
+    min-height: 400px;    /* Fixed height for all cards */
+    box-sizing: border-box;
+    text-align: center;
+    color:black;
+}
+
+.owner-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
