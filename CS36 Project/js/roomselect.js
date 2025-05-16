@@ -80,25 +80,3 @@ let roomCount = 0;
                                 }
                             }
                         }
-
-                        
-                        //Temporary disabled
-                        function handleConfirmBooking(event) {
-                            // Prevent the default form submission
-                            event.preventDefault();
-
-                            // Show the modal
-                            const bookingModal = new bootstrap.Modal(document.getElementById('bookingSuccessful'));
-                            bookingModal.show();
-
-                            // Optionally, you can submit the form after the modal is displayed
-                            // Uncomment the following line if you want to submit the form after showing the modal
-                            // document.querySelector('form').submit();
-
-                            // Return false to prevent the default form submission
-                            return false;
-                        }
-
-                        function redirectToHome() {
-                            window.location.href = "HomePage.php"; // Redirects to HomePage.php
-                        }
