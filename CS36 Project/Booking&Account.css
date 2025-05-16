@@ -118,6 +118,7 @@ footer{
     margin-bottom: 0 auto;
     background-color: #FFFFFF;
     justify-content: center;
+    width: 100%;
 }
 
 .account {
@@ -289,7 +290,7 @@ input[type="text"]{
     cursor: pointer;
 }
 
-h2{
+h1, h2, h3, h4{
     font-family: Baskerville;
 }
 
@@ -310,4 +311,7 @@ h2{
 }
 .confirm{
     color: green;
+}
+.booking-button:disabled{
+    opacity:0.3 ;
 }

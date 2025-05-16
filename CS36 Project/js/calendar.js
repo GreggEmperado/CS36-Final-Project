@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     selectable: true,
     select: function (info) {
       if (!checkIn || (checkIn && checkOut)) {
-        const searchRoomsButton = document.getElementById('searchRooms');
-        searchRoomsButton.disabled = false;
 
 
 
@@ -47,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
         document.getElementById("checkout-date").innerText = 'None';
       } else if (!checkOut && info.startStr > checkIn) {
+        const searchRoomsButton = document.getElementById('searchRooms');
+        searchRoomsButton.disabled = false;
         checkOut = info.startStr;
                 //Puts label on check out date
         calendar.addEvent({
@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
 
     dayCellDidMount: function (info) {
+        const selectedDate = new Date(info.startStr);
         const cellDate = new Date(info.date);
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Normalize time

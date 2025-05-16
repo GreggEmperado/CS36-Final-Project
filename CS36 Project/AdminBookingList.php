@@ -306,7 +306,7 @@
             }
         </script>
 
-        <footer style="margin-top:auto;">
+        <footer style="margin-top:auto;" class="footer">
             <h1>RKG Hotel</h1>
             <p>Dumaguete City, Negros Oriental 6200, Philippines</p>
             <p>rkghotel@gmail.com</p>
