@@ -16,7 +16,11 @@ let roomCount = 0;
                             let price = Number(element.getAttribute("data-price"));
 
                             roomCount++; //Increases room count on click
-                            totalprice += price;//adds price
+                            checkIn = document.getElementById("hidden-checkin").value;
+                            checkOut = document.getElementById("hidden-checkout").value;
+                            daysBooked = Math.floor((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
+                            let totalRoomPrice = price * daysBooked;
+                            totalprice = totalRoomPrice; // Add the total price for this room
 
                             const container = document.getElementById("selected-rooms");
 
@@ -59,8 +63,8 @@ let roomCount = 0;
                             if (roomDiv) {
                                 totalprice -= price;
 
-                                document.getElementById("cart").textContent = "Your Cart: ${roomCount} Item(s)";
-                                document.getElementById("total-price").textContent = "Total: PHP${totalprice}";
+                                document.getElementById("cart").textContent = "Your Cart: 0 Item(s)";
+                                document.getElementById("total-price").textContent = "Total: PHP0";
 
                                 roomDiv.remove();
                                 
