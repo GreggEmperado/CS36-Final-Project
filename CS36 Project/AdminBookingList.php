@@ -27,50 +27,46 @@
         $sql->bind_result($oldRoomNumber, $checkIn, $checkOut);
 
         //Fetch the old room number
-        if ($sql->fetch()) 
-            echo "Old Room Number: " . htmlspecialchars($oldRoomNumber);
+        $sql->fetch();        
         $sql->close();
 
+        
         //Store new number
         $findRoom = $conn->prepare("SELECT roomNumber FROM rooms WHERE roomType = ? AND isAvailable = 'available' LIMIT 1");
         $findRoom->bind_param("s", $roomType);
         $findRoom->execute();
         $findRoom->bind_result($newRoomNumber);
-        if ($findRoom->fetch()) {
-            echo "New Room Number: " . htmlspecialchars($newRoomNumber) . "<br>";
-        } else {
-            echo "No available rooms of selected type.";
-            exit;
-        }
+        $findRoom->fetch();        
         $findRoom->close();       
 
-        //Update booking with new roomNumber
-        $updateBooking = $conn->prepare("UPDATE bookings SET roomNumber = ? WHERE bookingID = ?");
-        $updateBooking->bind_param("si", $newRoomNumber, $bookingID);
-        $updateBooking->execute();
-        $updateBooking->close();
+        if ($newRoomNumber) {
+            //Update booking with new roomNumber
+            $updateBooking = $conn->prepare("UPDATE bookings SET roomNumber = ? WHERE bookingID = ?");
+            $updateBooking->bind_param("si", $newRoomNumber, $bookingID);
+            $updateBooking->execute();
+            $updateBooking->close();
 
-        //Delete old roomAvailability entries
-        $deleteOld = $conn->prepare("DELETE FROM roomAvailability WHERE roomNumber = ? AND date BETWEEN ? AND ?");
-        $deleteOld->bind_param("sss", $oldRoomNumber, $checkIn, $checkOut);
-        $deleteOld->execute();
-        $deleteOld->close();
+            //Delete old roomAvailability entries
+            $deleteOld = $conn->prepare("DELETE FROM roomAvailability WHERE roomNumber = ? AND date BETWEEN ? AND ?");
+            $deleteOld->bind_param("sss", $oldRoomNumber, $checkIn, $checkOut);
+            $deleteOld->execute();
+            $deleteOld->close();
 
-        //Insert new roomAvailability entries
-        $insertNew = $conn->prepare("INSERT IGNORE INTO roomAvailability (roomNumber, date) VALUES (?, ?)");
-        $current = strtotime($checkIn);
-        $end = strtotime($checkOut);
-        while ($current <= $end) {
-            $date = date('Y-m-d', $current);
-            $insertNew->bind_param("ss", $newRoomNumber, $date);
-            $insertNew->execute();
-            // Add one day (in seconds)
-            $current = strtotime("+1 day", $current);
-        }
-        $insertNew->close();        
+            //Insert new roomAvailability entries
+            $insertNew = $conn->prepare("INSERT IGNORE INTO roomAvailability (roomNumber, date) VALUES (?, ?)");
+            $current = strtotime($checkIn);
+            $end = strtotime($checkOut);
+            while ($current <= $end) {
+                $date = date('Y-m-d', $current);
+                $insertNew->bind_param("ss", $newRoomNumber, $date);
+                $insertNew->execute();
+                // Add one day (in seconds)
+                $current = strtotime("+1 day", $current);
+            }
+            $insertNew->close();                  
+        }               
     }
     
-
     if (isset($_POST['delete'])){
         $bookingID = $_POST['bookingID'];       
         // Delete the booking
@@ -187,7 +183,7 @@
                                                     <option value="suite">Suite</option>
                                                     <option value="king">King</option>
                                                     <option value="studio">Studio</option>
-                                                    <option value="penthouse">Penthouse</option>
+                                                    <option value="pent">Penthouse</option>
                                                 </select>
                                             </div>
                                             <div class="modal-footer">
