@@ -74,6 +74,7 @@
         $stmt->close();
         $conn->close();
     }
+    $confirm = "";
 
     //Booking the room
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['confirm'])){
@@ -113,7 +114,8 @@
                       VALUES (?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bind_param("sssss", $memberID, $roomNum, $checkInDate, $checkOutDate, $status);
-        $insertStmt->execute();        
+        $insertStmt->execute();
+        $confirm = "Booking Confirmed!";        
 
         //Update room availability for each day in the booking period
         $currentDate = $checkInDate;
@@ -166,6 +168,10 @@
         <div class="container black-heading">
                 <h1 class="text-center black-heading p-2 mt-3">Booking</h1>
             </div>
+        <div class="container">
+            
+            <h1 style="color:green;"><?php echo $confirm;?></h1>
+        </div>
         <div class="container mt-5">
             <div class="row pt-5">
                 <div class="col-md-6">

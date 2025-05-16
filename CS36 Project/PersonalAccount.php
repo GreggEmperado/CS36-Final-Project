@@ -140,12 +140,12 @@
         </header>
         
 
-        <!-- Edit Room Number Modal-->
+        <!-- Edit Room Type Modal-->
         <div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="editRoomModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editRoomModalLabel">Change Room Number</h5>
+                        <h5 class="modal-title" id="editRoomModalLabel">Change Room Type</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
