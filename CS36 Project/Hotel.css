@@ -386,6 +386,11 @@ a:hover{
     box-sizing: border-box;
 }
 
+.room:hover{
+        transform: scale(1.1); /* Increase size on hover */
+        transition: transform 0.5s;
+}
+
 .rooms-container {
     align-items: stretch;
 }
