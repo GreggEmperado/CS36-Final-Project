@@ -26,7 +26,8 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">                        <li><a class="dropdown-item" href="LogIn.php">Sign Out</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">                        
+                        <li><a class="dropdown-item" href="LogOut.php">Sign Out</a></li>
                     </ul>
                 </div>
         </header>

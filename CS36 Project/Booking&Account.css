@@ -305,3 +305,9 @@ h2{
     color:white !important;
     align-items: center !important;
 }
+.error{
+    color: red;
+}
+.confirm{
+    color: green;
+}

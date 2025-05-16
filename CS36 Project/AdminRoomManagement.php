@@ -5,7 +5,7 @@
     if ($conn->connect_error)   
         die("Connection failed ".$conn->connect_error);
 
-    $roomNumber = $roomType = $roomCapacity = $availability = $error = "";
+    $roomNumber = $roomType = $roomCapacity = $availability = $error = $confirm = "";
     
     //Change availability
     if (isset($_POST['change'])){
@@ -14,6 +14,35 @@
         $sql = $conn->prepare("UPDATE rooms SET isAvailable = ? WHERE roomNumber = ?");
         $sql->bind_param("ss", $availability, $roomNumber);
         $sql->execute();       
+    }
+
+    if (isset($_POST['create'])) {
+        $roomNumber = $_POST['roomNumber'];
+        $roomType = $_POST['roomType'];
+        $roomCapacity = $_POST['capacity'];
+        $availability = $_POST['availability'];
+
+        //Check if room number already exists
+        $checkRoomNumber = $conn->prepare("SELECT * FROM rooms WHERE roomNumber = ?");
+        $checkRoomNumber->bind_param("s", $roomNumber);
+        $checkRoomNumber->execute();
+        $result = $checkRoomNumber->get_result();
+
+        if ($result->num_rows > 0) {
+            $error = "Room number already exists.";
+        } else {
+            //Insert new room
+            $sql = $conn->prepare("INSERT INTO rooms (roomNumber, roomType, roomCapacity, isAvailable) VALUES (?, ?, ?, ?)");
+            $sql->bind_param("ssis", $roomNumber, $roomType, $roomCapacity, $availability);
+            if ($sql->execute()) {
+                $confirm = "Successfully created room!";
+                header("Location: AdminRoomManagement.php");
+                exit();
+            }                
+            else {
+                $error = "Error creating room: ";
+            }
+        }
     }
 ?>
 <html>
@@ -30,7 +59,7 @@
                         <img src="resources/person.png" alt="Account Photo" class="accountPhoto"><?php echo (isset($_SESSION['fName'])) ? "Hi, " . $_SESSION['fName'] : "Guest"; ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">                        
-                        <li><a class="dropdown-item" href="LogIn.php">Sign Out</a></li>
+                        <li><a class="dropdown-item" href="LogOut.php">Sign Out</a></li>
                     </ul>
                 </div>
         </header>
@@ -59,12 +88,19 @@
                                     <div class="modal-body">
                                         <form method="post" action="AdminRoomManagement.php">
                                             <div class="mb-3">
-                                                <label for="room_number" class="form-label">Room Number</label>
-                                                <input type="text" name="room_number" id="room_number" class="form-control" placeholder="Room Number" required>
+                                                <label for="roomNumber" class="form-label">Room Number</label>
+                                                <input type="text" name="roomNumber" id="roomNumber" class="form-control" placeholder="Room Number" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="room_type" class="form-label">Room Type</label>
-                                                <input type="text" name="room_type" id="room_type" class="form-control" placeholder="Room Type" required>
+                                                <label for="roomType" class="form-label">Room Type</label>
+                                                <select name="roomType" id="roomType" class="form-control" required>                                                    
+                                                    <option value="single">Single</option>
+                                                    <option value="double">Double</option>
+                                                    <option value="suite">Suite</option>
+                                                    <option value="king">King</option>
+                                                    <option value="studio">Studio</option>
+                                                    <option value="pent">Pent</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="capacity" class="form-label">Capacity</label>
@@ -75,7 +111,7 @@
                                                 <select name="availability" id="availability" class="form-control" required>                                                    
                                                     <option value="Available">Available</option>
                                                     <option value="Unavailable">Unavailable</option>
-                                                </select>
+                                                </select>                                              
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -169,11 +205,14 @@
                                 
                     <div class="col-md-12 justify-content-center ps-5">
                         <h2 class="row">Room Management</h2>
-                        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" 
-                            style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>
                         <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#bookingPerRoomModal" 
                             style="background-color:#1D1128; border: 1px solid #1D1128; color: white;">Generate Booking Report</button>
-                        <br>
+                        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#createRoomModal" 
+                            style="background-color:#1D1128; border: 1px solid #1D1128">Create Room</button>                        
+                        <br><p class="confirm" style="color: green"><?php echo $confirm;?></p>
+                        <p class="error" style="color: red"><?php echo $error;?></p>
+                        
+
                         <br>
                         <table class="table table-bordered">
                             <thead>
