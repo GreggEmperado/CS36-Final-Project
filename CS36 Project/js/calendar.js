@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
     selectable: true,
     select: function (info) {
       if (!checkIn || (checkIn && checkOut)) {
+        const searchRoomsButton = document.getElementById('searchRooms');
+        searchRoomsButton.disabled = false;
+
+
 
         const selectedDate = new Date(info.startStr);
         const today = new Date();

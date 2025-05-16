@@ -183,7 +183,7 @@
                     <form method="POST">
                         <input type="hidden" id="hidden-checkin" name="checkin" value="<?php echo $checkInDate; ?>">
                         <input type="hidden" id="hidden-checkout" name="checkout" value="<?php echo $checkOutDate; ?>">
-                        <button type="submit" name="searchRooms" id="searchRooms" class="btn-outline-info mt-5" value="Look">Look for Available Rooms</button>                    
+                        <button type="submit" name="searchRooms" id="searchRooms" class="btn-outline-info mt-5" value="Look" disabled>Look for Available Rooms</button>                    
                     </form>
                 </div>            
                 <div class="col-md-6 border-3">
