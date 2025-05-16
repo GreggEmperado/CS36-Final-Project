@@ -118,6 +118,7 @@ footer{
     margin-bottom: 0 auto;
     background-color: #FFFFFF;
     justify-content: center;
+    width: 100%;
 }
 
 .account {
