@@ -80,11 +80,7 @@
         $findRoom->fetch();        
         $findRoom->close(); 
         
-        if (!$newRoomNumber) {
-            // Handle the case where the room doesn't exist
-            
-        } else {
-
+        if ($newRoomNumber) {
             //Update booking with new roomNumber
             $updateBooking = $conn->prepare("UPDATE bookings SET roomNumber = ? WHERE bookingID = ?");
             $updateBooking->bind_param("si", $newRoomNumber, $bookingID);
@@ -166,7 +162,7 @@
                                     <option value="suite">Suite</option>
                                     <option value="king">King</option>
                                     <option value="studio">Studio</option>
-                                    <option value="penthouse">Penthouse</option>
+                                    <option value="pent">Penthouse</option>
                                 </select>
                             </div>
                             <div class="modal-footer">
