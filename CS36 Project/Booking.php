@@ -183,7 +183,7 @@
                     <form method="POST">
                         <input type="hidden" id="hidden-checkin" name="checkin" value="<?php echo $checkInDate; ?>">
                         <input type="hidden" id="hidden-checkout" name="checkout" value="<?php echo $checkOutDate; ?>">
-                        <button type="submit" name="searchRooms" id="searchRooms" class="btn-outline-info mt-5" value="Look" disabled>Look for Available Rooms</button>                    
+                        <button type="submit" class="booking-button" name="searchRooms" id="searchRooms" class="btn-outline-info mt-5" value="Look" disabled>Look for Available Rooms</button>                    
                     </form>
                 </div>            
                 <div class="col-md-6 border-3">
@@ -264,7 +264,7 @@
                         <div class="col-md-5">
                             <h4 id="cart">Your Cart: 0 Item(s)</h4>
                             <p id="total-price">Total: PHP0</p>
-                            <button type="submit" name="confirm" id="confirm" disabled>Confirm Booking</button>                          
+                            <button type="submit" class="booking-button" name="confirm" id="confirm" disabled>Confirm Booking</button>                          
                         </div>
                     </form>
                 </div>               

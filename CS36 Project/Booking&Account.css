@@ -289,7 +289,7 @@ input[type="text"]{
     cursor: pointer;
 }
 
-h2{
+h1, h2, h3, h4{
     font-family: Baskerville;
 }
 
@@ -304,4 +304,8 @@ h2{
     text-align: left !important;
     color:white !important;
     align-items: center !important;
+}
+
+.booking-button:disabled{
+    opacity:0.3 ;
 }
