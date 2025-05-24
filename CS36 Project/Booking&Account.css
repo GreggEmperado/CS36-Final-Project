@@ -30,6 +30,11 @@ button :hover{
     cursor: pointer;
 }
 
+.account button:focus{
+    background-color: #6D72C3;
+    color: white;
+}
+
 button :disabled{
     background-color: red;
 }
@@ -314,4 +319,8 @@ h1, h2, h3, h4{
 }
 .booking-button:disabled{
     opacity:0.3 ;
+}
+
+.fc-daygrid-day-frame:hover{
+    background-color: rgba(89, 65, 169, 0.3);
 }
